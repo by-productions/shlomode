@@ -182,16 +182,17 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 .ph .ph-dim{font-family:'Fredoka';font-size:10px;letter-spacing:.1em;opacity:.6;text-transform:uppercase}
 .ph.wide{aspect-ratio:16/9}
 
-.sidenav{position:fixed;top:50%;right:18px;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:12px}
-.sidenav a{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.4);border:2px solid rgba(255,255,255,.7);position:relative;transition:all .3s;cursor:pointer}
-.sidenav a::after{content:attr(data-label);position:absolute;right:24px;top:50%;transform:translateY(-50%) translateX(8px);white-space:nowrap;background:var(--navy);color:#fff;font-family:'Fredoka';font-size:11px;padding:5px 11px;border-radius:8px;opacity:0;pointer-events:none;transition:.25s}
-.sidenav a:hover::after{opacity:1;transform:translateY(-50%)}
-.sidenav a.active{background:var(--gold);border-color:#fff;transform:scale(1.5)}
-.progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--green),var(--gold),var(--sun));z-index:70;width:0;transition:width .15s}
-.brandmini{position:fixed;top:14px;right:20px;z-index:60;display:flex;align-items:center;background:#fff;border-radius:30px;padding:7px 14px;box-shadow:var(--shadow)}
-.brandmini img{height:26px;display:block}
-.navhint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:60;font-family:'Fredoka';font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.5);text-transform:uppercase}
-@media(max-width:680px){.sidenav{display:none}.navhint{display:none}.brandmini img{height:22px}}
+.progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--green),var(--gold),var(--sun));z-index:80;width:0;transition:width .15s}
+.topbar{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:center;gap:14px;padding:9px clamp(12px,2vw,22px);
+  background:rgba(255,255,255,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 6px 24px -12px rgba(8,33,69,.4)}
+.tb-brand{flex:none;display:flex;align-items:center}
+.tb-brand img{height:30px;display:block}
+.tb-nav{display:flex;gap:6px;overflow-x:auto;flex:1;padding:2px;scrollbar-width:none;scroll-behavior:smooth}
+.tb-nav::-webkit-scrollbar{display:none}
+.tb-nav a{flex:none;font-family:'Fredoka';font-weight:500;font-size:13px;white-space:nowrap;padding:7px 14px;border-radius:30px;color:var(--navy);cursor:pointer;transition:.25s;opacity:.62}
+.tb-nav a:hover{opacity:1;background:rgba(11,46,110,.08)}
+.tb-nav a.active{opacity:1;color:#fff;background:linear-gradient(135deg,var(--sun),var(--sun-deep));box-shadow:0 6px 16px -8px rgba(255,78,14,.6)}
+@media(max-width:680px){.tb-brand img{height:24px}.tb-nav a{font-size:12px;padding:6px 11px}}
 .note{max-width:1180px;margin:24px auto 0;border-radius:16px;padding:14px 20px;font-family:'Assistant';font-size:13.5px;line-height:1.5}
 .note.light{background:rgba(7,33,69,.06);border:1px dashed rgba(7,33,69,.3);color:var(--ink)}
 .note.dark{background:rgba(255,255,255,.13);border:1px dashed rgba(255,255,255,.4);color:#fff}
@@ -206,9 +207,10 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 <body>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="progress" id="progress"></div>
-<div class="brandmini"><img src="LOGO.png" alt="SHLOMODE"></div>
-<nav class="sidenav" id="sidenav"></nav>
-<div class="navhint">↑ ↓ / גלילה</div>
+<header class="topbar">
+  <div class="tb-brand"><img src="LOGO.png" alt="SHLOMODE"></div>
+  <nav class="tb-nav" id="tbnav"></nav>
+</header>
 
 <div class="deck" id="deck">
 
@@ -561,12 +563,12 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const deck=document.getElementById('deck');
 const slides=[...document.querySelectorAll('.slide')];
-const sidenav=document.getElementById('sidenav');
+const tbnav=document.getElementById('tbnav');
 const progress=document.getElementById('progress');
-slides.forEach((s,i)=>{const a=document.createElement('a');a.dataset.label=s.dataset.label||('שקופית '+(i+1));a.addEventListener('click',()=>s.scrollIntoView({behavior:'smooth'}));sidenav.appendChild(a);});
-const dots=[...sidenav.children];
+slides.forEach((s,i)=>{const a=document.createElement('a');a.textContent=s.dataset.label||('שקופית '+(i+1));a.addEventListener('click',()=>s.scrollIntoView({behavior:'smooth'}));tbnav.appendChild(a);});
+const dots=[...tbnav.children];
 
-const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');const i=slides.indexOf(e.target);dots.forEach((d,k)=>d.classList.toggle('active',k===i));e.target.querySelectorAll('.count[data-count]').forEach(countUp);}});},{threshold:.4});
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');const i=slides.indexOf(e.target);dots.forEach((d,k)=>d.classList.toggle('active',k===i));dots[i]&&dots[i].scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});e.target.querySelectorAll('.count[data-count]').forEach(countUp);}});},{threshold:.4});
 slides.forEach(s=>io.observe(s));
 
 function countUp(el){
