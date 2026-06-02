@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHLOMODE — אירוע עובדי שלמה ביטוח</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Rubik:wght@400;500;700;900&family=Assistant:wght@300;400;600;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --sky:#34B4F0; --sky-light:#7FD3F7; --blue:#1471D6; --royal:#0F57C0;
+  --navy:#0A2E73; --navy-deep:#06204F;
+  --sun:#FF7A1A; --sun-deep:#FF4E0E; --gold:#FFB13B;
+  --green:#2FB344; --green-light:#56D86B;
+  --cream:#FFF6E9; --sand:#FFE9C7; --ink:#072145; --white:#fff;
+  --shadow:0 18px 50px -18px rgba(8,33,69,.45);
+  --shadow-lg:0 40px 90px -30px rgba(8,33,69,.55);
+  --r:26px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Assistant','Rubik',sans-serif;color:var(--ink);background:var(--navy-deep);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.deck{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scroll-behavior:smooth}
+.deck::-webkit-scrollbar{width:0}
+section.slide{position:relative;min-height:100vh;scroll-snap-align:start;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:clamp(28px,5vw,80px) clamp(20px,6vw,110px);overflow:hidden}
+h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:1.04;letter-spacing:-.01em}
+.eyebrow{font-family:'Fredoka';font-weight:600;letter-spacing:.4em;text-transform:uppercase;font-size:clamp(11px,1.1vw,15px);display:inline-flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:34px;height:3px;border-radius:3px;background:currentColor;display:inline-block}
+
+/* reveal: blur + scale + directional */
+.r{opacity:0;transform:translateY(48px) scale(.97);filter:blur(10px);
+   transition:opacity .9s cubic-bezier(.16,1,.3,1),transform 1s cubic-bezier(.16,1,.3,1),filter .9s ease}
+.r.from-r{transform:translateX(70px) scale(.97)}
+.r.from-l{transform:translateX(-70px) scale(.97)}
+.r.zoom{transform:scale(.82)}
+.slide.in .r{opacity:1;transform:none;filter:blur(0)}
+.slide.in .r.d1{transition-delay:.08s}.slide.in .r.d2{transition-delay:.18s}
+.slide.in .r.d3{transition-delay:.30s}.slide.in .r.d4{transition-delay:.42s}
+.slide.in .r.d5{transition-delay:.54s}.slide.in .r.d6{transition-delay:.66s}
+
+.bg-sunset{background:linear-gradient(180deg,#0A2E73 0%,#1471D6 30%,#34B4F0 48%,#FFB13B 70%,#FF7A1A 86%,#FF4E0E 100%);background-size:100% 220%;animation:skyShift 18s ease-in-out infinite alternate}
+.bg-ocean{background:linear-gradient(165deg,#06204F 0%,#0A2E73 40%,#0F57C0 75%,#1471D6 100%)}
+.bg-cream{background:radial-gradient(120% 120% at 80% 0%,#FFF6E9 0%,#FFE9C7 60%,#FFD79E 100%)}
+.bg-day{background:linear-gradient(170deg,#34B4F0 0%,#7FD3F7 45%,#FFE9C7 100%)}
+.bg-dusk{background:linear-gradient(180deg,#06204F,#0A2E73 45%,#0F57C0 100%)}
+.bg-green{background:linear-gradient(160deg,#0B7A2E 0%,#2FB344 55%,#56D86B 100%)}
+.bg-cine{background:radial-gradient(120% 90% at 50% 0%,#11254a 0%,#0a1730 55%,#05101f 100%)}
+@keyframes skyShift{from{background-position:50% 0%}to{background-position:50% 100%}}
+
+.sun{position:absolute;border-radius:50%;background:radial-gradient(circle at 50% 45%,#FFD27A,#FF7A1A 55%,#FF4E0E 100%);box-shadow:0 0 90px 30px rgba(255,122,26,.5),0 0 160px 60px rgba(255,78,14,.28);pointer-events:none}
+.sun.glow{animation:sunPulse 6s ease-in-out infinite}
+@keyframes sunPulse{50%{box-shadow:0 0 120px 44px rgba(255,122,26,.62),0 0 200px 80px rgba(255,78,14,.34)}}
+.sun-lines{position:absolute;inset:0;border-radius:50%;overflow:hidden;mix-blend-mode:overlay;opacity:.4;background:repeating-linear-gradient(0deg,transparent 0 18px,rgba(0,0,0,.3) 18px 24px)}
+.waves{position:absolute;left:0;right:0;bottom:-2px;width:100%;display:block;pointer-events:none}
+.wave-anim path{animation:swell 7s ease-in-out infinite alternate}
+@keyframes swell{from{transform:translateX(0)}to{transform:translateX(-26px)}}
+.palm{position:absolute;bottom:0;pointer-events:none;transform-origin:bottom center;animation:sway 6s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}
+.float{position:absolute;pointer-events:none;will-change:transform}
+@keyframes drift{0%{transform:translateY(0) rotate(0)}50%{transform:translateY(-24px) rotate(8deg)}100%{transform:translateY(0) rotate(0)}}
+@keyframes drift2{0%{transform:translateY(0)}50%{transform:translateY(20px)}100%{transform:translateY(0)}}
+@keyframes twinkle{0%,100%{opacity:.3;transform:scale(.85)}50%{opacity:1;transform:scale(1.15)}}
+
+#fx{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.65}
+
+.hero-wrap{position:relative;z-index:5;text-align:center;color:#fff}
+/* white card backing so the transparent logo is readable on any background */
+.logo-card{display:inline-block;background:#fff;border-radius:30px;padding:clamp(22px,3.4vw,42px) clamp(30px,5vw,60px);
+  box-shadow:0 34px 80px -26px rgba(6,32,79,.6),0 4px 0 rgba(255,255,255,.5) inset;animation:logoFloat 6s ease-in-out infinite;will-change:transform}
+@keyframes logoFloat{50%{transform:translateY(-15px)}}
+.hero-logo{display:block;width:min(620px,76vw)}
+.wordmark{font-family:'Fredoka';font-weight:700;font-size:clamp(50px,11vw,150px);line-height:.9;letter-spacing:-.02em;color:#fff;text-shadow:0 8px 0 rgba(10,46,115,.32),0 20px 40px rgba(6,32,79,.5);position:relative}
+.wordmark .o{display:inline-block;width:.74em;height:.74em;border-radius:50%;background:radial-gradient(circle at 40% 35%,#FFD27A,#FF7A1A 60%,#FF4E0E);box-shadow:0 0 40px rgba(255,122,26,.7);vertical-align:-.04em;margin:0 -.01em;animation:drift 5s ease-in-out infinite}
+.tagwrap{display:flex;gap:clamp(10px,2vw,26px);justify-content:center;flex-wrap:wrap;margin-top:24px;font-family:'Fredoka';font-weight:600;letter-spacing:.14em;font-size:clamp(13px,1.6vw,22px)}
+.tagwrap span{display:inline-flex;align-items:center;gap:14px}
+.tagwrap span::after{content:"•";opacity:.55}
+.tagwrap span:last-child::after{display:none}
+.tag-relax{color:#7DF19A}.tag-recharge{color:#FFC76B}.tag-reconnect{color:#9BE0FF}
+.scrolldown{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:6;color:#fff;display:flex;flex-direction:column;align-items:center;gap:8px;font-family:'Fredoka';font-size:12px;letter-spacing:.2em;opacity:.9}
+.mouse{width:26px;height:42px;border:2px solid #fff;border-radius:16px;position:relative}
+.mouse::before{content:"";position:absolute;top:7px;left:50%;width:4px;height:8px;background:#fff;border-radius:3px;transform:translateX(-50%);animation:wheel 1.6s infinite}
+@keyframes wheel{0%{opacity:0;transform:translate(-50%,0)}40%{opacity:1}100%{opacity:0;transform:translate(-50%,14px)}}
+
+.wrap{position:relative;z-index:5;width:100%;max-width:1180px;margin:0 auto}
+.kicker-row{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-bottom:18px}
+.big-title{font-size:clamp(36px,6vw,86px)}
+.lede{font-family:'Assistant';font-weight:400;font-size:clamp(16px,1.7vw,22px);line-height:1.6;max-width:64ch;opacity:.95;margin-top:16px}
+
+.tilt{transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .4s;will-change:transform}
+.rippling{position:relative;overflow:hidden}
+.ripple-dot{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:rippleAnim .65s ease-out forwards;pointer-events:none;z-index:3}
+@keyframes rippleAnim{to{transform:scale(4.5);opacity:0}}
+
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:40px}
+.info-card{background:rgba(255,255,255,.93);border-radius:var(--r);padding:28px 24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.info-card .ic{font-size:28px;width:56px;height:56px;border-radius:18px;display:grid;place-items:center;margin-bottom:14px;background:linear-gradient(135deg,var(--sun),var(--sun-deep));box-shadow:0 10px 24px -8px rgba(255,78,14,.6)}
+.info-card.b .ic{background:linear-gradient(135deg,var(--sky),var(--royal));box-shadow:0 10px 24px -8px rgba(15,87,192,.6)}
+.info-card.g .ic{background:linear-gradient(135deg,var(--green-light),var(--green));box-shadow:0 10px 24px -8px rgba(47,179,68,.55)}
+.info-card h4{font-family:'Secular One';font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--royal);margin-bottom:8px}
+.info-card .val{font-family:'Secular One';font-size:clamp(18px,2.1vw,24px);color:var(--ink);line-height:1.15}
+.count{font-variant-numeric:tabular-nums}
+
+/* INFO — clean, icon-free, balanced */
+.info-grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:40px}
+.info-card2{background:rgba(255,255,255,.96);border-radius:var(--r);padding:26px 24px 24px;box-shadow:var(--shadow);text-align:right;position:relative;overflow:hidden;border-top:5px solid var(--ac,#FF7A1A)}
+.info-card2 .lbl{font-family:'Fredoka';font-weight:600;font-size:12.5px;letter-spacing:.12em;color:var(--ac);text-transform:uppercase}
+.info-card2 .val{font-family:'Secular One';font-size:clamp(21px,2.3vw,29px);color:var(--navy);line-height:1.18;margin-top:12px}
+.info-card2 .sub{font-family:'Assistant';font-weight:600;font-size:13.5px;color:#6a7d97;margin-top:7px}
+.ac-org{--ac:#FF7A1A}.ac-sky{--ac:#1471D6}.ac-grn{--ac:#2FB344}
+.exp-strip{display:flex;align-items:center;gap:20px;flex-wrap:wrap;background:rgba(255,255,255,.96);border-radius:var(--r);box-shadow:var(--shadow);padding:20px 28px;margin-top:18px}
+.exp-title{font-family:'Secular One';color:var(--navy);font-size:clamp(16px,1.8vw,21px);white-space:nowrap}
+@media(max-width:880px){.info-grid4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:520px){.info-grid4{grid-template-columns:1fr}}
+
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:42px}
+.pillar{position:relative;border-radius:var(--r);padding:34px 26px 30px;color:#fff;overflow:hidden;box-shadow:var(--shadow);min-height:300px;display:flex;flex-direction:column;justify-content:flex-end}
+.pillar.relax{background:linear-gradient(160deg,#2FB344,#0B7A2E)}
+.pillar.recharge{background:linear-gradient(160deg,#FF9A2E,#FF4E0E)}
+.pillar.reconnect{background:linear-gradient(160deg,#34B4F0,#0A2E73)}
+.pillar .num{font-family:'Fredoka';font-weight:700;font-size:54px;opacity:.32;line-height:1;margin-bottom:auto}
+.pillar h3{font-size:clamp(22px,2.8vw,34px);margin:12px 0 10px}
+.pillar p{font-family:'Assistant';font-size:15.5px;line-height:1.55;opacity:.96}
+.pillar .glow{position:absolute;width:200px;height:200px;border-radius:50%;filter:blur(50px);opacity:.45;top:-40px;left:-30px;background:#fff;animation:glowPulse 5s ease-in-out infinite}
+@keyframes glowPulse{50%{opacity:.7;transform:scale(1.25)}}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-top:38px}
+.card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:var(--r);padding:24px;backdrop-filter:blur(6px);color:#fff}
+.card.light{background:rgba(255,255,255,.92);border-color:transparent;box-shadow:var(--shadow);color:var(--ink)}
+.card h4{font-family:'Secular One';font-size:20px;margin:8px 0}
+.card p{font-family:'Assistant';font-size:14.5px;line-height:1.55;opacity:.92}
+.card .cic{font-size:28px;margin-bottom:6px}
+
+.tl{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.tl-row{display:grid;grid-template-columns:118px 1fr;gap:18px;align-items:center;background:rgba(255,255,255,.92);border-radius:18px;padding:15px 22px;box-shadow:var(--shadow);transition:transform .35s}
+.tl-row:hover{transform:translateX(-8px)}
+.tl-row .t{font-family:'Fredoka';font-weight:700;color:var(--sun-deep);font-size:17px}
+.tl-row .e{font-family:'Assistant';font-weight:600;color:var(--ink);font-size:15.5px}
+.dayhdr{font-family:'Secular One';color:#fff;font-size:19px;margin:16px 0 10px;display:flex;align-items:center;gap:12px}
+.dayhdr::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--gold)}
+@media(max-width:620px){.tl-row{grid-template-columns:96px 1fr;gap:12px}}
+
+.journey-head{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.badge{font-family:'Fredoka';font-weight:700;width:72px;height:72px;border-radius:24px;display:grid;place-items:center;color:#fff;font-size:30px;flex:none;box-shadow:var(--shadow)}
+.two-col{display:grid;grid-template-columns:1.05fr .95fr;gap:38px;align-items:center;margin-top:30px}
+.chiprow{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.chip{font-family:'Fredoka';font-weight:500;font-size:14px;padding:9px 18px;border-radius:40px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);color:#fff;transition:transform .3s,background .3s}
+.chip:hover{transform:translateY(-4px) scale(1.05);background:rgba(255,255,255,.28)}
+.chip.light{background:rgba(7,33,69,.06);border-color:rgba(7,33,69,.18);color:var(--ink)}
+.chip.light:hover{background:rgba(7,33,69,.12)}
+@media(max-width:880px){.two-col{grid-template-columns:1fr;gap:26px}.pillars{grid-template-columns:1fr}}
+
+.lf-label{font-family:'Secular One';letter-spacing:.05em;display:inline-flex;align-items:center;gap:10px;font-size:clamp(18px,2.2vw,26px);margin-bottom:6px}
+.lf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin-top:20px}
+
+.modebox{position:relative;z-index:5;text-align:center;color:#fff}
+.toggle{display:inline-flex;align-items:center;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.35);border-radius:60px;padding:8px;margin:28px 0 18px;cursor:pointer;user-select:none;backdrop-filter:blur(8px)}
+.toggle .opt{font-family:'Fredoka';font-weight:700;font-size:clamp(15px,2vw,22px);padding:14px 30px;border-radius:50px;transition:.5s;letter-spacing:.04em;white-space:nowrap}
+.toggle .opt.work{color:#cfe0ff}.toggle .opt.shlo{color:#fff}
+.toggle[data-on="work"] .opt.work{background:linear-gradient(135deg,#1f2d44,#3a4a66);box-shadow:0 8px 24px -8px rgba(0,0,0,.5)}
+.toggle[data-on="shlo"] .opt.shlo{background:linear-gradient(135deg,var(--sun),var(--sun-deep));box-shadow:0 8px 24px -8px rgba(255,78,14,.7)}
+.modestate{font-family:'Secular One';font-size:clamp(26px,5vw,52px);transition:.5s;min-height:1.1em}
+.modehint{font-family:'Fredoka';letter-spacing:.2em;font-size:12px;opacity:.7;text-transform:uppercase}
+#mode{transition:background .8s ease}
+#mode.work-mode{background:linear-gradient(170deg,#0b1626,#1c2942 60%,#2b3a55)!important}
+#mode.shlo-mode{background:linear-gradient(180deg,#0A2E73 0%,#1471D6 34%,#34B4F0 54%,#FFB13B 78%,#FF7A1A 100%)!important}
+#modesun{transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1)}
+
+.split{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg);min-height:300px;margin-top:6px}
+.split .half{padding:26px;display:flex;flex-direction:column;justify-content:center;gap:8px;color:#fff;transition:flex .5s}
+.split .office{background:linear-gradient(160deg,#26303f,#3c4a60)}
+.split .beach{background:linear-gradient(160deg,#FF9A2E,#FF4E0E)}
+.split .half .lbl{font-family:'Fredoka';font-weight:700;letter-spacing:.16em;font-size:12px;opacity:.8;text-transform:uppercase}
+.split .half .big{font-family:'Secular One';font-size:clamp(22px,2.6vw,32px);line-height:1.1}
+.split .half .em{font-size:36px}
+.split .half ul{list-style:none;font-family:'Assistant';font-size:14px;opacity:.9;line-height:1.8}
+
+.ph{position:relative;aspect-ratio:1/1;border-radius:18px;border:2.5px dashed rgba(255,255,255,.55);background:repeating-linear-gradient(45deg,rgba(255,255,255,.06),rgba(255,255,255,.06) 14px,rgba(255,255,255,.02) 14px,rgba(255,255,255,.02) 28px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:#fff;text-align:center;padding:12px;overflow:hidden}
+.ph.light{border-color:rgba(7,33,69,.35);color:var(--ink);background:repeating-linear-gradient(45deg,rgba(7,33,69,.045),rgba(7,33,69,.045) 14px,rgba(7,33,69,.015) 14px,rgba(7,33,69,.015) 28px)}
+.ph .ph-ic{font-size:28px;opacity:.85}
+.ph .ph-name{font-family:'Secular One';font-size:14px;line-height:1.15}
+.ph .ph-dim{font-family:'Fredoka';font-size:10px;letter-spacing:.1em;opacity:.6;text-transform:uppercase}
+.ph.wide{aspect-ratio:16/9}
+
+.sidenav{position:fixed;top:50%;right:18px;transform:translateY(-50%);z-index:60;display:flex;flex-direction:column;gap:12px}
+.sidenav a{width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.4);border:2px solid rgba(255,255,255,.7);position:relative;transition:all .3s;cursor:pointer}
+.sidenav a::after{content:attr(data-label);position:absolute;right:24px;top:50%;transform:translateY(-50%) translateX(8px);white-space:nowrap;background:var(--navy);color:#fff;font-family:'Fredoka';font-size:11px;padding:5px 11px;border-radius:8px;opacity:0;pointer-events:none;transition:.25s}
+.sidenav a:hover::after{opacity:1;transform:translateY(-50%)}
+.sidenav a.active{background:var(--gold);border-color:#fff;transform:scale(1.5)}
+.progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--green),var(--gold),var(--sun));z-index:70;width:0;transition:width .15s}
+.brandmini{position:fixed;top:14px;right:20px;z-index:60;display:flex;align-items:center;background:#fff;border-radius:30px;padding:7px 14px;box-shadow:var(--shadow)}
+.brandmini img{height:26px;display:block}
+.navhint{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:60;font-family:'Fredoka';font-size:11px;letter-spacing:.16em;color:rgba(255,255,255,.5);text-transform:uppercase}
+@media(max-width:680px){.sidenav{display:none}.navhint{display:none}.brandmini img{height:22px}}
+.note{max-width:1180px;margin:24px auto 0;border-radius:16px;padding:14px 20px;font-family:'Assistant';font-size:13.5px;line-height:1.5}
+.note.light{background:rgba(7,33,69,.06);border:1px dashed rgba(7,33,69,.3);color:var(--ink)}
+.note.dark{background:rgba(255,255,255,.13);border:1px dashed rgba(255,255,255,.4);color:#fff}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001s!important}
+  .r{transition-duration:.3s!important}
+  #fx{display:none}
+}
+</style>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="progress" id="progress"></div>
+<div class="brandmini"><img src="LOGO.png" alt="SHLOMODE"></div>
+<nav class="sidenav" id="sidenav"></nav>
+<div class="navhint">↑ ↓ / גלילה</div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 HERO -->
+  <section class="slide bg-sunset" id="hero" data-label="פתיחה">
+    <div class="sun glow" data-par="0.06" style="width:min(46vw,520px);height:min(46vw,520px);top:7%;left:50%;transform:translateX(-50%)"><div class="sun-lines"></div></div>
+    <svg class="palm" data-par="0.12" style="left:-10px;width:min(26vw,280px);animation-duration:6.5s" viewBox="0 0 120 200" fill="#2FB344"><path d="M60 200V70" stroke="#1d7a2e" stroke-width="9"/><path d="M60 70C30 40 8 50 0 64c20-2 34 6 60 14zM60 70C90 40 112 50 120 64c-20-2-34 6-60 14zM60 70C44 36 20 26 6 30c18 8 28 22 54 48zM60 70c16-34 40-44 54-40-18 8-28 22-54 48z"/></svg>
+    <svg class="palm" data-par="0.18" style="right:0;width:min(20vw,210px);animation-duration:7.5s;animation-direction:alternate-reverse" viewBox="0 0 120 200" fill="#27993a"><path d="M60 200V70" stroke="#155f23" stroke-width="8"/><path d="M60 70C30 40 8 50 0 64c20-2 34 6 60 14zM60 70C90 40 112 50 120 64c-20-2-34 6-60 14zM60 70C44 36 20 26 6 30c18 8 28 22 54 48zM60 70c16-34 40-44 54-40-18 8-28 22-54 48z"/></svg>
+    <div class="hero-wrap">
+      <div class="eyebrow r d1" style="color:#FFE2B0;justify-content:center;margin-bottom:22px">אירוע עובדי שלמה ביטוח · 2026</div>
+      <div class="r d2"><div class="logo-card"><img class="hero-logo" src="LOGO.png" alt="SHLOMODE — Relax · Recharge · Reconnect"></div></div>
+      <p class="r d4" style="font-family:'Assistant';margin-top:24px;font-size:clamp(16px,1.9vw,23px);max-width:36ch;margin-inline:auto;color:#fff">ליום אחד יוצאים מהשגרה — ונכנסים ל<strong>מוד חופש</strong>.</p>
+    </div>
+    <svg class="waves wave-anim" viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#0F57C0" d="M0 60c180 40 360 40 540 16s360-56 540-32 220 56 360 40v36H0z"/></svg>
+    <div class="scrolldown"><span>גללו</span><span class="mouse"></span></div>
+  </section>
+
+  <!-- 2 INFO -->
+  <section class="slide bg-day" id="info" data-label="INFO">
+    <svg class="palm" data-par="0.1" style="right:-20px;width:min(18vw,180px);opacity:.5" viewBox="0 0 120 200" fill="#2FB344"><path d="M60 200V70" stroke="#1d7a2e" stroke-width="8"/><path d="M60 70C30 40 8 50 0 64c20-2 34 6 60 14zM60 70C90 40 112 50 120 64c-20-2-34 6-60 14zM60 70C44 36 20 26 6 30c18 8 28 22 54 48zM60 70c16-34 40-44 54-40-18 8-28 22-54 48z"/></svg>
+    <div class="wrap">
+      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--royal)">פרטי האירוע</span></div>
+      <h2 class="big-title r d1" style="color:var(--navy)">INFO</h2>
+      <div class="info-grid4">
+        <div class="info-card2 ac-org tilt r d2"><span class="lbl">קהל יעד</span><div class="val">כ־<span class="count" data-count="250">250</span> עובדים</div><div class="sub">שלמה ביטוח</div></div>
+        <div class="info-card2 ac-sky tilt r d3"><span class="lbl">מועד</span><div class="val">אוקטובר–נובמבר</div><div class="sub">2026</div></div>
+        <div class="info-card2 ac-grn tilt r d4"><span class="lbl">פורמט</span><div class="val">חד־יומי / דו־יומי</div><div class="sub">יום חוף או נופש</div></div>
+        <div class="info-card2 ac-org tilt r d5"><span class="lbl">לוקיישנים</span><div class="val">חוף · כנרת · מלון</div><div class="sub">לבחירה</div></div>
+      </div>
+      <div class="exp-strip r d4">
+        <span class="exp-title">אופי החוויה</span>
+        <div class="chiprow" style="margin-top:0">
+          <span class="chip light">חוף</span><span class="chip light">מוזיקה</span><span class="chip light">משקאות</span>
+          <span class="chip light">אוכל טוב</span><span class="chip light">צ׳יל</span><span class="chip light">וולנס</span>
+          <span class="chip light">פעילות ימית</span><span class="chip light">חיבור</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 ROAD TO CONCEPT -->
+  <section class="slide bg-dusk" id="road" data-label="בדרך לקונספט">
+    <div class="wrap">
+      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--gold)">מה חיפשנו</span></div>
+      <h2 class="big-title r d1" style="color:#fff">בדרך לקונספט</h2>
+      <div class="two-col" style="align-items:stretch">
+        <div>
+          <p class="lede r d2 from-r" style="color:#DDE9FF;margin-top:0">שלמה ביטוח חיפשה אירוע שיאפשר לצוות לצאת רגע מהשגרה, להתאוורר אחרי תקופה עמוסה, להיטען באנרגיה ולהתחבר מחדש — באווירה קלילה ולא פורמלית.</p>
+          <p class="lede r d3 from-r" style="color:#fff;font-weight:600">פחות עבודה, יותר שמש. פחות עומס, יותר ים. פחות שגרה, יותר מוזיקה, צ׳יל ואנשים. מתוך זה נולד <strong>SHLOMODE</strong>.</p>
+        </div>
+        <div class="split tilt rippling r d3 from-l" id="switchCard" onclick="toggleScene()" style="cursor:pointer">
+          <div class="half office"><span class="em">💼</span><span class="lbl">Office Mode</span><span class="big">השגרה</span><ul><li>משימות</li><li>יעדים</li><li>לקוחות</li></ul></div>
+          <div class="half beach"><span class="em">🏖️</span><span class="lbl">Beach Mode</span><span class="big">החופש</span><ul><li>שמש וים</li><li>מוזיקה</li><li>אנשים</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 MODE ON/OFF -->
+  <section class="slide" id="mode" data-label="MODE ON/OFF">
+    <div class="sun glow" data-par="0.05" style="width:min(34vw,360px);height:min(34vw,360px);top:8%;right:8%;opacity:0" id="modesun"></div>
+    <div class="modebox">
+      <div class="r d1"><span class="eyebrow" style="color:#fff;justify-content:center">להחליף מצב</span></div>
+      <h2 class="big-title r d2" style="color:#fff;margin-top:10px">Work Mode: OFF<br>SHLOMODE: ON</h2>
+      <p class="lede r d2" style="color:#cfe0ff;margin-inline:auto;text-align:center;max-width:46ch">ביום־יום כולנו במוד עבודה. ביום האירוע — מכבים את מוד העבודה ומדליקים את מוד החופש.</p>
+      <div class="toggle r d3" id="toggle" data-on="work" onclick="flipMode()">
+        <span class="opt work">WORK MODE</span>
+        <span class="opt shlo">SHLOMODE</span>
+      </div>
+      <div class="modestate r d3" id="modestate" style="color:#9fb2cf">Work Mode: ON</div>
+      <div class="modehint r d3">לחצו על המתג ☝️</div>
+    </div>
+    <svg class="waves wave-anim" id="modewaves" viewBox="0 0 1440 120" preserveAspectRatio="none" style="opacity:0;transition:opacity .6s"><path fill="#0F57C0" d="M0 60c180 40 360 40 540 16s360-56 540-32 220 56 360 40v36H0z"/></svg>
+  </section>
+
+  <!-- 5 CONCEPT -->
+  <section class="slide bg-cream" id="concept" data-label="הקונספט">
+    <svg class="palm" data-par="0.1" style="left:-30px;width:min(16vw,160px);opacity:.35" viewBox="0 0 120 200" fill="#2FB344"><path d="M60 200V70" stroke="#1d7a2e" stroke-width="8"/><path d="M60 70C30 40 8 50 0 64c20-2 34 6 60 14zM60 70C90 40 112 50 120 64c-20-2-34 6-60 14zM60 70C44 36 20 26 6 30c18 8 28 22 54 48zM60 70c16-34 40-44 54-40-18 8-28 22-54 48z"/></svg>
+    <div class="wrap" style="text-align:center">
+      <div class="r d1"><span class="eyebrow" style="color:var(--sun-deep);justify-content:center">הקונספט</span></div>
+      <div class="wordmark r d2" style="color:var(--navy);font-size:clamp(46px,9vw,118px);text-shadow:0 6px 0 rgba(10,46,115,.12);margin:6px 0">SHL<span class="o"></span>MODE</div>
+      <p class="lede r d3" style="color:var(--ink);margin-inline:auto;text-align:center"><strong>המוד החדש של שלמה ביטוח</strong> — מוד של חוף, קיץ ישראלי, מוזיקה, משקאות, שמש, ים, אוכל טוב, צחוקים וחיבור בין אנשים.</p>
+      <div class="pillars" style="margin-top:34px">
+        <div class="pillar relax tilt rippling r d3"><span class="glow"></span><div class="num">01</div><h3>RELAX</h3><p>להוריד קצב.</p></div>
+        <div class="pillar recharge tilt rippling r d4"><span class="glow"></span><div class="num">02</div><h3>RECHARGE</h3><p>להיטען באנרגיה.</p></div>
+        <div class="pillar reconnect tilt rippling r d5"><span class="glow"></span><div class="num">03</div><h3>RECONNECT</h3><p>להתחבר מחדש.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 PRE-CAMPAIGN -->
+  <section class="slide bg-ocean" id="campaign" data-label="קמפיין מקדים">
+    <div class="wrap">
+      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--gold)">לפני שמגיעים</span></div>
+      <h2 class="big-title r d1" style="color:#fff">קמפיין מקדים והרשמה</h2>
+      <p class="lede r d2" style="color:#DDE9FF">החוויה מתחילה הרבה לפני האירוע. קמפיין שמכניס את העובדים בהדרגה ל־SHLOMODE — עם ג׳ינגל מקורי שהופך לפסקול של האירוע, לפני, במהלך ואחרי.</p>
+      <div class="two-col" style="align-items:start">
+        <div>
+          <div class="cards" style="grid-template-columns:1fr;margin-top:24px">
+            <div class="card tilt rippling r d3 from-r"><h4>🎬 טיזרים ורמזים</h4><p>חשיפת קונספט ולוקיישן, ספירה לאחור ותזכורות שמייצרים ציפייה.</p></div>
+            <div class="card tilt rippling r d4 from-r"><h4>📝 עמוד הרשמה ממותג</h4><p>קליל, ברור וצבעוני — פרטי האירוע, לו״ז ובחירת פעילות.</p></div>
+            <div class="card tilt rippling r d5 from-r"><h4>🎶 ג׳ינגל מקורי</h4><p>קצבי, שמחבר שלמה · חוף · קיץ · אנרגיה.</p></div>
+          </div>
+        </div>
+        <div class="lf-grid" style="grid-template-columns:1fr 1fr;margin-top:24px">
+          <div class="ph tilt r d3"><div class="ph-ic">📱</div><div class="ph-name">מסך הרשמה</div><div class="ph-dim">מובייל</div></div>
+          <div class="ph tilt r d4"><div class="ph-ic">💬</div><div class="ph-name">הודעת טיזר</div><div class="ph-dim">מובייל</div></div>
+          <div class="ph tilt r d5"><div class="ph-ic">🔆</div><div class="ph-name">כפתור SHLOMODE ON</div><div class="ph-dim">הדמיה</div></div>
+          <div class="ph tilt r d6"><div class="ph-ic">🔊</div><div class="ph-name">אייקון ג׳ינגל</div><div class="ph-dim">הדמיה</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 OPTION A -->
+  <section class="slide bg-day" id="opt-a" data-label="אופציה א׳ · חד־יומי">
+    <div class="wrap">
+      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--royal)">אופציה א׳</span></div>
+      <h2 class="big-title r d1" style="color:var(--navy)">יום חוף · אירוע חד־יומי</h2>
+      <div class="two-col" style="align-items:start">
+        <div class="r d2 from-r">
+          <div class="tl">
+            <div class="tl-row"><span class="t">09:00</span><span class="e">קבלת פנים</span></div>
+            <div class="tl-row"><span class="t">10:00</span><span class="e">מתחמי חוף, וולנס, פעילות ימית, מוזיקה ומשחקים</span></div>
+            <div class="tl-row"><span class="t">14:00</span><span class="e">ארוחת צהריים</span></div>
+            <div class="tl-row"><span class="t">16:00</span><span class="e">סיום משוער</span></div>
+          </div>
+        </div>
+        <div>
+          <span class="lf-label r d2" style="color:var(--navy)">📍 לוקיישנים אפשריים</span>
+          <div class="lf-grid" style="grid-template-columns:1fr 1fr;margin-top:14px">
+            <div class="ph light tilt r d3"><div class="ph-ic">🏖️</div><div class="ph-name">כיף ים, קיסריה</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph light tilt r d4"><div class="ph-ic">🌊</div><div class="ph-name">מנאו, חבצלת השרון</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph light tilt r d5"><div class="ph-ic">🌴</div><div class="ph-name">יאמאס, חוף דור</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph light tilt r d6"><div class="ph-ic">🌅</div><div class="ph-name">בורה בורה, כנרת</div><div class="ph-dim">הדמיה</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 OPTION B -->
+  <section class="slide bg-dusk" id="opt-b" data-label="אופציה ב׳ · דו־יומי">
+    <div class="wrap">
+      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--gold)">אופציה ב׳</span></div>
+      <h2 class="big-title r d1" style="color:#fff">נופש דו־יומי · חוף + מלון + ערב</h2>
+      <div class="two-col" style="align-items:start">
+        <div class="r d2 from-r">
+          <div class="dayhdr">יום חמישי</div>
+          <div class="tl">
+            <div class="tl-row"><span class="t">09–15</span><span class="e">אירוע חוף</span></div>
+            <div class="tl-row"><span class="t">16:00</span><span class="e">הגעה למלון וצ׳ק אין</span></div>
+            <div class="tl-row"><span class="t">19:30</span><span class="e">ארוחת ערב במלון</span></div>
+            <div class="tl-row"><span class="t">21:00</span><span class="e">סטנדאפ / הופעה / LIVE MUSICOLLAGE</span></div>
+          </div>
+          <div class="dayhdr">יום שישי</div>
+          <div class="tl">
+            <div class="tl-row"><span class="t">08:00</span><span class="e">ארוחת בוקר חופשית</span></div>
+            <div class="tl-row"><span class="t">11:00</span><span class="e">צ׳ק אאוט</span></div>
+            <div class="tl-row"><span class="t">13:00</span><span class="e">צהריים ויציאה הביתה</span></div>
+          </div>
+        </div>
+        <div>
+          <span class="lf-label r d2" style="color:#fff">🏨 מלונות אפשריים</span>
+          <div class="lf-grid" style="grid-template-columns:1fr;margin-top:14px">
+            <div class="ph wide tilt r d3"><div class="ph-ic">🏨</div><div class="ph-name">מלון בוטניקה, חיפה</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph wide tilt r d4"><div class="ph-ic">🛥️</div><div class="ph-name">מלון היאכטה, הרצליה</div><div class="ph-dim">הדמיה</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 WELCOME -->
+  <section class="slide bg-ocean" id="welcome" data-label="קבלת פנים">
+    <div class="wrap">
+      <div class="two-col">
+        <div>
+          <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--gold)">רגע המעבר</span></div>
+          <h2 class="big-title r d1" style="color:#fff">קבלת פנים</h2>
+          <p class="lede r d2" style="color:#DDE9FF">הכניסה היא רגע המעבר מהשגרה לחוויה. כבר מהרגע הראשון ברור — זה לא עוד יום עבודה. זה SHLOMODE.</p>
+          <div class="chiprow r d3">
+            <span class="chip">צ׳ק אין ממותג</span><span class="chip">משקה פתיחה</span>
+            <span class="chip">אביזרי חוף</span><span class="chip">צילום ראשון</span><span class="chip">מוזיקה</span>
+          </div>
+        </div>
+        <div class="lf-grid">
+          <div class="ph tilt r d3"><div class="ph-ic">🚪</div><div class="ph-name">שער כניסה</div><div class="ph-dim">הדמיה</div></div>
+          <div class="ph tilt r d4"><div class="ph-ic">🎟️</div><div class="ph-name">עמדת Welcome</div><div class="ph-dim">הדמיה</div></div>
+          <div class="ph tilt r d5"><div class="ph-ic">🍹</div><div class="ph-name">בר קבלת פנים</div><div class="ph-dim">הדמיה</div></div>
+          <div class="ph tilt r d6"><div class="ph-ic">🕶️</div><div class="ph-name">אביזרי חוף</div><div class="ph-dim">הדמיה</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 RELAX -->
+  <section class="slide bg-green" id="z-relax" data-label="Relax Zone">
+    <div class="wrap">
+      <div class="journey-head r d1">
+        <div class="badge" style="background:linear-gradient(135deg,#fff3,#fff1)">🌴</div>
+        <div><span class="eyebrow" style="color:#eafff0">להוריד קצב</span><h2 class="big-title" style="color:#fff;font-size:clamp(32px,5vw,64px)">Relax Zone</h2></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <p class="lede r d2" style="color:#eafff0">אזור הצ׳יל של האירוע — המקום לשבת מול הים, לנשום, להירגע ולהרגיש באמת בחופש.</p>
+          <div class="chiprow r d3">
+            <span class="chip">פופים ומחצלות</span><span class="chip">מיטות שיזוף</span><span class="chip">עיסויים</span>
+            <span class="chip">יוגה ומתיחות</span><span class="chip">מים ופירות</span><span class="chip">חכם בשמש</span>
+          </div>
+        </div>
+        <div>
+          <span class="lf-label r d2" style="color:#fff">🎨 LOOK & FEEL</span>
+          <div class="lf-grid">
+            <div class="ph tilt r d3"><div class="ph-ic">🛋️</div><div class="ph-name">פינת צ׳יל מוצלת</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph tilt r d4"><div class="ph-ic">🧘</div><div class="ph-name">עמדת וולנס</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph tilt r d5"><div class="ph-ic">⛱️</div><div class="ph-name">שמשיות ומגבות</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph tilt r d6"><div class="ph-ic">☀️</div><div class="ph-name">חכם בשמש</div><div class="ph-dim">הדמיה</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 RECHARGE -->
+  <section class="slide bg-sunset" id="z-recharge" data-label="Recharge Zone">
+    <div class="sun glow" data-par="0.06" style="width:min(22vw,240px);height:min(22vw,240px);top:8%;left:6%"></div>
+    <div class="wrap">
+      <div class="journey-head r d1">
+        <div class="badge" style="background:linear-gradient(135deg,var(--sun),var(--sun-deep))">⚡</div>
+        <div><span class="eyebrow" style="color:#fff">להרים אנרגיה</span><h2 class="big-title" style="color:#fff;font-size:clamp(32px,5vw,64px)">Recharge Zone</h2></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <p class="lede r d2" style="color:#fff">מתחם הפעילות והקצב — האזור שבו הים, המוזיקה והאקשן מתחברים לחוויה אחת.</p>
+          <div class="chiprow r d3">
+            <span class="chip">סאפ</span><span class="chip">קיאקים</span><span class="chip">אבוב / בננה</span>
+            <span class="chip">מתקנים צפים</span><span class="chip">משחקי מים</span><span class="chip">DJ חוף</span>
+          </div>
+        </div>
+        <div>
+          <span class="lf-label r d2" style="color:#fff">🎨 LOOK & FEEL</span>
+          <div class="lf-grid">
+            <div class="ph tilt r d3"><div class="ph-ic">🏄</div><div class="ph-name">פעילות ימית</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph tilt r d4"><div class="ph-ic">🛟</div><div class="ph-name">מתקנים צפים</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph tilt r d5"><div class="ph-ic">🎶</div><div class="ph-name">DJ על החוף</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph tilt r d6"><div class="ph-ic">🚩</div><div class="ph-name">שילוט Recharge</div><div class="ph-dim">הדמיה</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <svg class="waves wave-anim" viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#0F57C0" d="M0 60c180 40 360 40 540 16s360-56 540-32 220 56 360 40v36H0z"/></svg>
+  </section>
+
+  <!-- 12 RECONNECT -->
+  <section class="slide bg-ocean" id="z-reconnect" data-label="Reconnect Zone">
+    <div class="wrap">
+      <div class="journey-head r d1">
+        <div class="badge" style="background:linear-gradient(135deg,var(--sky),var(--navy))">🤝</div>
+        <div><span class="eyebrow" style="color:var(--sky-light)">להתחבר מחדש</span><h2 class="big-title" style="color:#fff;font-size:clamp(32px,5vw,64px)">Reconnect Zone</h2></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <p class="lede r d2" style="color:#DDE9FF">מתחם המשחקים והמפגש. בלי משימות מאולצות, בלי תחרות כבדה — פשוט זמן יחד.</p>
+          <div class="chiprow r d3">
+            <span class="chip">ששבש</span><span class="chip">שחמט ודמקה</span><span class="chip">דומינו וקלפים</span>
+            <span class="chip">דוקים</span><span class="chip">משחקי חוף</span><span class="chip">שולחנות ישיבה</span>
+          </div>
+        </div>
+        <div>
+          <span class="lf-label r d2" style="color:#fff">🎨 LOOK & FEEL</span>
+          <div class="lf-grid">
+            <div class="ph tilt r d3"><div class="ph-ic">🎲</div><div class="ph-name">שולחנות משחק</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph tilt r d4"><div class="ph-ic">🪑</div><div class="ph-name">אזור ישיבה</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph tilt r d5"><div class="ph-ic">😄</div><div class="ph-name">אנשים משחקים</div><div class="ph-dim">הדמיה</div></div>
+            <div class="ph tilt r d6"><div class="ph-ic">🥤</div><div class="ph-name">כוסות קיץ</div><div class="ph-dim">הדמיה</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 FOOD DRINKS MUSIC -->
+  <section class="slide bg-cream" id="vibe" data-label="Food · Drinks · Music">
+    <div class="wrap">
+      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--sun-deep)">הטעם והקצב</span></div>
+      <h2 class="big-title r d1" style="color:var(--navy)">Food, Drinks &amp; Music</h2>
+      <p class="lede r d2" style="color:var(--ink)">אווירה שמרגישה כמו חופשת חוף ישראלית — צבעונית, שמחה, משוחררת וקצבית, עם ג׳ינגל האירוע שחוזר לאורך היום.</p>
+      <div class="lf-grid">
+        <div class="ph light tilt r d2"><div class="ph-ic">🍸</div><div class="ph-name">בר חוף ממותג</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d3"><div class="ph-ic">🥤</div><div class="ph-name">כוסות צבעוניות</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d4"><div class="ph-ic">🍽️</div><div class="ph-name">דוכני אוכל</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d5"><div class="ph-ic">🎧</div><div class="ph-name">DJ ורמקולים</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d3"><div class="ph-ic">🍉</div><div class="ph-name">תפריט קיץ</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d4"><div class="ph-ic">☕</div><div class="ph-name">בר קפה</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d5"><div class="ph-ic">🎵</div><div class="ph-name">רגעי לייב</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d6"><div class="ph-ic">🍢</div><div class="ph-name">נשנושים</div><div class="ph-dim">הדמיה</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 LIVE MUSICOLLAGE -->
+  <section class="slide bg-cine" id="musicollage" data-label="LIVE MUSICOLLAGE">
+    <div class="wrap" style="text-align:center">
+      <div class="r d1"><span class="eyebrow" style="color:var(--gold);justify-content:center">האייטם המרכזי · אירוע הערב</span></div>
+      <h2 class="big-title r d2" style="color:#fff">LIVE MUSICOLLAGE</h2>
+      <p class="lede r d3" style="color:#cfe0ff;margin-inline:auto;text-align:center">העובדים הופכים לכוכבים — קליפ מוזיקלי שנערך במיוחד לשלמה ביטוח, על בסיס השיר המקורי של האירוע. רגעים מהחברה, משפטים פנימיים, אנרגיה קבוצתית והרבה הומור.</p>
+      <div class="ph wide tilt rippling r d4 zoom" style="max-width:760px;margin:30px auto 0;border-color:rgba(255,177,59,.6)">
+        <div class="ph-ic" style="font-size:46px">▶️</div><div class="ph-name" style="font-size:17px">מסך במה · קליפ העובדים</div><div class="ph-dim">וידאו · 16:9</div>
+      </div>
+    </div>
+    <svg class="waves wave-anim" viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#0f2547" d="M0 60c180 40 360 40 540 16s360-56 540-32 220 56 360 40v36H0z"/></svg>
+  </section>
+
+  <!-- 15 GIVEAWAY -->
+  <section class="slide bg-day" id="giveaway" data-label="GIVEAWAY">
+    <div class="wrap">
+      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--royal)">לקחת הביתה</span></div>
+      <h2 class="big-title r d1" style="color:var(--navy)">GIVEAWAY</h2>
+      <p class="lede r d2" style="color:var(--ink)">מזכרות שימושיות שממשיכות את החוויה גם אחרי האירוע — לא מתנה גנרית, אלא חלק מ־SHLOMODE.</p>
+      <div class="lf-grid">
+        <div class="ph light tilt r d2"><div class="ph-ic">🏖️</div><div class="ph-name">מגבת חוף</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d2"><div class="ph-ic">👜</div><div class="ph-name">תיק חוף</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d3"><div class="ph-ic">🧢</div><div class="ph-name">כובע</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d3"><div class="ph-ic">🍶</div><div class="ph-name">בקבוק שתייה</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d4"><div class="ph-ic">🧴</div><div class="ph-name">תכשירי הגנה</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d4"><div class="ph-ic">☕</div><div class="ph-name">פק״ל קפה</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d5"><div class="ph-ic">🎲</div><div class="ph-name">ערכת משחקים</div><div class="ph-dim">הדמיה</div></div>
+        <div class="ph light tilt r d5"><div class="ph-ic">⛱️</div><div class="ph-name">אביזרי חוף</div><div class="ph-dim">הדמיה</div></div>
+      </div>
+      <div class="note light r d6">💡 רעיון לויז׳ואל: <strong>Flat lay</strong> של כל הגיבאווי על חול/רקע לבן — תיק, מגבת, כובע, בקבוק, משחקים, קרם הגנה ופק״ל קפה.</div>
+    </div>
+  </section>
+
+  <!-- 16 CLOSING -->
+  <section class="slide bg-sunset" id="end" data-label="סיום">
+    <div class="sun glow" data-par="0.05" style="width:min(40vw,440px);height:min(40vw,440px);top:11%;left:50%;transform:translateX(-50%)"><div class="sun-lines"></div></div>
+    <svg class="palm" data-par="0.14" style="left:0;width:min(20vw,220px)" viewBox="0 0 120 200" fill="#2FB344"><path d="M60 200V70" stroke="#1d7a2e" stroke-width="9"/><path d="M60 70C30 40 8 50 0 64c20-2 34 6 60 14zM60 70C90 40 112 50 120 64c-20-2-34 6-60 14zM60 70C44 36 20 26 6 30c18 8 28 22 54 48zM60 70c16-34 40-44 54-40-18 8-28 22-54 48z"/></svg>
+    <div class="hero-wrap" style="text-align:center">
+      <p class="r d1" style="font-family:'Secular One';color:#fff;font-size:clamp(17px,2.2vw,26px);line-height:1.4">מוד עבודה כבוי. מוד חופש דלוק.</p>
+      <div class="r d2" style="margin:18px 0"><div class="logo-card"><img class="hero-logo" src="LOGO.png" alt="SHLOMODE" style="width:min(560px,74vw)"></div></div>
+      <p class="r d4" style="font-family:'Assistant';font-weight:600;color:#fff;font-size:clamp(16px,1.9vw,22px);margin-top:14px;max-width:34ch;margin-inline:auto">נשמח להפיק עבורכם חוויית עובדים צבעונית, קצבית ובלתי נשכחת.</p>
+    </div>
+    <svg class="waves wave-anim" viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#0F57C0" d="M0 60c180 40 360 40 540 16s360-56 540-32 220 56 360 40v36H0z"/></svg>
+  </section>
+
+</div>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const deck=document.getElementById('deck');
+const slides=[...document.querySelectorAll('.slide')];
+const sidenav=document.getElementById('sidenav');
+const progress=document.getElementById('progress');
+slides.forEach((s,i)=>{const a=document.createElement('a');a.dataset.label=s.dataset.label||('שקופית '+(i+1));a.addEventListener('click',()=>s.scrollIntoView({behavior:'smooth'}));sidenav.appendChild(a);});
+const dots=[...sidenav.children];
+
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');const i=slides.indexOf(e.target);dots.forEach((d,k)=>d.classList.toggle('active',k===i));e.target.querySelectorAll('.count[data-count]').forEach(countUp);}});},{threshold:.4});
+slides.forEach(s=>io.observe(s));
+
+function countUp(el){
+  if(el.dataset.done) return; el.dataset.done='1';
+  const target=+el.dataset.count; if(reduce){el.textContent=target;return;}
+  const dur=1200,t0=performance.now();
+  (function tick(now){const p=Math.min(1,(now-t0)/dur);el.textContent=Math.round(target*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(tick);})(performance.now());
+}
+
+deck.addEventListener('scroll',()=>{const max=deck.scrollHeight-deck.clientHeight;progress.style.width=(deck.scrollTop/max*100)+'%';},{passive:true});
+let idx=0;
+function go(d){idx=Math.max(0,Math.min(slides.length-1,idx+d));slides[idx].scrollIntoView({behavior:'smooth'});}
+window.addEventListener('keydown',e=>{if(['ArrowDown','PageDown'].includes(e.key)){e.preventDefault();go(1)}if(['ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(-1)}});
+deck.addEventListener('scroll',()=>{const c=deck.scrollTop+deck.clientHeight/2;slides.forEach((s,i)=>{if(c>=s.offsetTop&&c<s.offsetTop+s.offsetHeight)idx=i});},{passive:true});
+
+const parEls=[...document.querySelectorAll('[data-par]')];
+deck.addEventListener('scroll',()=>{
+  const y=deck.scrollTop;
+  parEls.forEach(el=>{
+    const sec=el.closest('.slide');const rel=y-sec.offsetTop;const amt=parseFloat(el.dataset.par)||.06;
+    const hasCenter=el.style.left==='50%';
+    el.style.transform=(hasCenter?'translateX(-50%) ':'')+'translateY('+(rel*amt)+'px)';
+  });
+},{passive:true});
+
+if(!reduce){
+  document.querySelectorAll('.tilt').forEach(el=>{
+    el.addEventListener('pointermove',ev=>{
+      const r=el.getBoundingClientRect();
+      const x=(ev.clientX-r.left)/r.width-.5;
+      const y=(ev.clientY-r.top)/r.height-.5;
+      el.style.transform=`perspective(900px) rotateX(${(-y*9).toFixed(2)}deg) rotateY(${(x*9).toFixed(2)}deg) translateY(-8px) scale(1.02)`;
+      el.style.boxShadow='var(--shadow-lg)';
+    });
+    el.addEventListener('pointerleave',()=>{el.style.transform='';el.style.boxShadow='';});
+  });
+}
+
+document.querySelectorAll('.rippling').forEach(el=>{
+  el.addEventListener('pointerdown',ev=>{
+    const r=el.getBoundingClientRect();const d=Math.max(r.width,r.height);
+    const dot=document.createElement('span');dot.className='ripple-dot';
+    dot.style.width=dot.style.height=d+'px';
+    dot.style.left=(ev.clientX-r.left-d/2)+'px';
+    dot.style.top=(ev.clientY-r.top-d/2)+'px';
+    el.appendChild(dot);setTimeout(()=>dot.remove(),700);
+  });
+});
+
+let sceneBeach=false;
+function toggleScene(){
+  sceneBeach=!sceneBeach;
+  const c=document.getElementById('switchCard');
+  c.querySelector('.office').style.flex=sceneBeach?'0.7':'1';
+  c.querySelector('.beach').style.flex=sceneBeach?'1.6':'1';
+}
+function flipMode(){
+  const t=document.getElementById('toggle');const sec=document.getElementById('mode');const state=document.getElementById('modestate');const sun=document.getElementById('modesun');const waves=document.getElementById('modewaves');
+  const on=t.dataset.on==='work'?'shlo':'work';t.dataset.on=on;
+  if(on==='shlo'){
+    sec.classList.remove('work-mode');sec.classList.add('shlo-mode');
+    state.textContent='SHLOMODE: ON 🔆';state.style.color='#FFE2B0';
+    sun.style.opacity='1';sun.style.transform='translateY(0)';
+    waves.style.opacity='1';
+  } else {
+    sec.classList.add('work-mode');sec.classList.remove('shlo-mode');
+    state.textContent='Work Mode: ON';state.style.color='#9fb2cf';
+    sun.style.opacity='0';sun.style.transform='translateY(60px)';
+    waves.style.opacity='0';
+  }
+}
+document.getElementById('mode').classList.add('work-mode');
+document.getElementById('modesun').style.transform='translateY(60px)';
+
+(function(){
+  if(reduce) return;
+  const cv=document.getElementById('fx');const ctx=cv.getContext('2d');
+  let W,H,dpr;
+  function size(){dpr=Math.min(2,window.devicePixelRatio||1);W=cv.width=innerWidth*dpr;H=cv.height=innerHeight*dpr;cv.style.width=innerWidth+'px';cv.style.height=innerHeight+'px';}
+  size();addEventListener('resize',size);
+  const N=Math.round(innerWidth/22);
+  const P=[];
+  function spawn(initial){
+    return {x:Math.random()*W,y:initial?Math.random()*H:H+20*dpr,r:(2+Math.random()*7)*dpr,sp:(.3+Math.random()*.9)*dpr,sway:.4+Math.random()*1.1,ph:Math.random()*Math.PI*2,a:.18+Math.random()*.35,spark:Math.random()<.18};
+  }
+  for(let i=0;i<N;i++)P.push(spawn(true));
+  let t=0;
+  (function frame(){
+    ctx.clearRect(0,0,W,H);t+=0.016;
+    for(const p of P){
+      p.y-=p.sp;p.x+=Math.sin(t*p.sway+p.ph)*.4*dpr;
+      if(p.y<-20*dpr){Object.assign(p,spawn(false));}
+      if(p.spark){
+        const tw=.5+.5*Math.sin(t*3+p.ph);
+        ctx.globalAlpha=p.a*tw;ctx.fillStyle='#fff';
+        const s=p.r*.7;
+        ctx.beginPath();
+        ctx.moveTo(p.x,p.y-s);ctx.lineTo(p.x+s*.3,p.y-s*.3);ctx.lineTo(p.x+s,p.y);
+        ctx.lineTo(p.x+s*.3,p.y+s*.3);ctx.lineTo(p.x,p.y+s);ctx.lineTo(p.x-s*.3,p.y+s*.3);
+        ctx.lineTo(p.x-s,p.y);ctx.lineTo(p.x-s*.3,p.y-s*.3);ctx.closePath();ctx.fill();
+      } else {
+        const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+        g.addColorStop(0,'rgba(255,255,255,'+p.a+')');
+        g.addColorStop(.6,'rgba(190,234,251,'+(p.a*.5)+')');
+        g.addColorStop(1,'rgba(190,234,251,0)');
+        ctx.globalAlpha=1;ctx.fillStyle=g;
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+      }
+    }
+    ctx.globalAlpha=1;requestAnimationFrame(frame);
+  })();
+})();
+</script>
+</body>
+</html>
