@@ -165,6 +165,16 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 #mode.work-mode{background:linear-gradient(170deg,#0b1626,#1c2942 60%,#2b3a55)!important}
 #mode.shlo-mode{background:linear-gradient(180deg,#0A2E73 0%,#1471D6 34%,#34B4F0 54%,#FFB13B 78%,#FF7A1A 100%)!important}
 #modesun{transition:opacity .7s ease,transform .9s cubic-bezier(.16,1,.3,1)}
+/* MODE slide photo backgrounds (crossfade on toggle) */
+.mode-slide{background:#0b1626}
+.mode-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;opacity:0;transition:opacity .9s ease;will-change:opacity,transform;animation:kenburns 22s ease-in-out infinite alternate}
+.mode-bg.work{background-image:url('IMG/work.png')}
+.mode-bg.shlo{background-image:url('IMG/shlomode.png')}
+.mode-slide.work-mode .mode-bg.work{opacity:1}
+.mode-slide.shlo-mode .mode-bg.shlo{opacity:1}
+.mode-scrim{position:absolute;inset:0;z-index:1;transition:background .9s ease;background:linear-gradient(180deg,rgba(6,14,28,.62) 0%,rgba(6,14,28,.84) 100%)}
+.mode-slide.shlo-mode .mode-scrim{background:linear-gradient(180deg,rgba(6,28,62,.5) 0%,rgba(5,16,40,.74) 100%)}
+@keyframes kenburns{from{transform:scale(1)}to{transform:scale(1.08)}}
 
 .split{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg);min-height:300px;margin-top:6px}
 .split .half{padding:26px;display:flex;flex-direction:column;justify-content:center;gap:8px;color:#fff;transition:flex .5s}
@@ -270,8 +280,10 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
   </section>
 
   <!-- 4 MODE ON/OFF -->
-  <section class="slide" id="mode" data-label="MODE ON/OFF">
-    <div class="sun glow" data-par="0.05" style="width:min(34vw,360px);height:min(34vw,360px);top:8%;right:8%;opacity:0" id="modesun"></div>
+  <section class="slide mode-slide work-mode" id="mode" data-label="MODE ON/OFF">
+    <div class="mode-bg work"></div>
+    <div class="mode-bg shlo"></div>
+    <div class="mode-scrim"></div>
     <div class="modebox">
       <div class="r d1"><span class="eyebrow" style="color:#fff;justify-content:center">להחליף מצב</span></div>
       <h2 class="big-title r d2" style="color:#fff;margin-top:10px">Work Mode: OFF<br>SHLOMODE: ON</h2>
@@ -283,7 +295,6 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
       <div class="modestate r d3" id="modestate" style="color:#9fb2cf">Work Mode: ON</div>
       <div class="modehint r d3">לחצו על המתג ☝️</div>
     </div>
-    <svg class="waves wave-anim" id="modewaves" viewBox="0 0 1440 120" preserveAspectRatio="none" style="opacity:0;transition:opacity .6s"><path fill="#0F57C0" d="M0 60c180 40 360 40 540 16s360-56 540-32 220 56 360 40v36H0z"/></svg>
   </section>
 
   <!-- 5 CONCEPT -->
@@ -626,22 +637,16 @@ function toggleScene(){
   c.querySelector('.beach').style.flex=sceneBeach?'1.6':'1';
 }
 function flipMode(){
-  const t=document.getElementById('toggle');const sec=document.getElementById('mode');const state=document.getElementById('modestate');const sun=document.getElementById('modesun');const waves=document.getElementById('modewaves');
+  const t=document.getElementById('toggle');const sec=document.getElementById('mode');const state=document.getElementById('modestate');
   const on=t.dataset.on==='work'?'shlo':'work';t.dataset.on=on;
   if(on==='shlo'){
     sec.classList.remove('work-mode');sec.classList.add('shlo-mode');
     state.textContent='SHLOMODE: ON 🔆';state.style.color='#FFE2B0';
-    sun.style.opacity='1';sun.style.transform='translateY(0)';
-    waves.style.opacity='1';
   } else {
     sec.classList.add('work-mode');sec.classList.remove('shlo-mode');
     state.textContent='Work Mode: ON';state.style.color='#9fb2cf';
-    sun.style.opacity='0';sun.style.transform='translateY(60px)';
-    waves.style.opacity='0';
   }
 }
-document.getElementById('mode').classList.add('work-mode');
-document.getElementById('modesun').style.transform='translateY(60px)';
 
 (function(){
   if(reduce) return;
