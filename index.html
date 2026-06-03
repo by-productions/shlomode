@@ -220,6 +220,17 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 .zone-panel{max-width:640px;background:rgba(7,22,46,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:28px 32px;color:#fff;box-shadow:var(--shadow-lg)}
 .zone-panel .lede{margin-top:14px}
 .zone-panel .chiprow{margin-top:16px}
+
+/* FOOD/DRINKS day-night toggle stage */
+.vibe-stage{position:relative;margin-top:20px;height:min(54vh,480px);width:100%;border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);background:#0a2540}
+.vibe-img{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .8s ease}
+.vibe-img.on{opacity:1}
+.vibe-toggle{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:3;display:inline-flex;background:rgba(7,22,46,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:5px}
+.vibe-toggle .opt{font-family:'Fredoka';font-weight:700;font-size:15px;color:#fff;padding:9px 24px;border-radius:50px;cursor:pointer;transition:.4s;opacity:.78}
+.vibe-toggle .opt.on{opacity:1;background:linear-gradient(135deg,var(--sun),var(--sun-deep));box-shadow:0 6px 16px -8px rgba(255,78,14,.6)}
+/* responsive video */
+.video-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);background:#000}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 @media(max-width:880px){.loc-grid{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr!important}}
 
 .progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--green),var(--gold),var(--sun));z-index:80;width:0;transition:width .15s}
@@ -485,16 +496,13 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
     <div class="wrap">
       <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--sun-deep)">הטעם והקצב</span></div>
       <h2 class="big-title r d1" style="color:var(--navy)">Food, Drinks &amp; Music</h2>
-      <p class="lede r d2" style="color:var(--ink)">אווירה שמרגישה כמו חופשת חוף ישראלית — צבעונית, שמחה, משוחררת וקצבית, עם ג׳ינגל האירוע שחוזר לאורך היום.</p>
-      <div class="lf-grid">
-        <div class="ph light tilt r d2"><div class="ph-ic">🍸</div><div class="ph-name">בר חוף ממותג</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d3"><div class="ph-ic">🥤</div><div class="ph-name">כוסות צבעוניות</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d4"><div class="ph-ic">🍽️</div><div class="ph-name">דוכני אוכל</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d5"><div class="ph-ic">🎧</div><div class="ph-name">DJ ורמקולים</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d3"><div class="ph-ic">🍉</div><div class="ph-name">תפריט קיץ</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d4"><div class="ph-ic">☕</div><div class="ph-name">בר קפה</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d5"><div class="ph-ic">🎵</div><div class="ph-name">רגעי לייב</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d6"><div class="ph-ic">🍢</div><div class="ph-name">נשנושים</div><div class="ph-dim">הדמיה</div></div>
+      <p class="lede r d2" style="color:var(--ink);max-width:80ch">אווירה שמרגישה כמו חופשת חוף ישראלית — צבעונית, שמחה, משוחררת וקצבית, עם ג׳ינגל האירוע שחוזר לאורך היום. מבוקר עד לילה.</p>
+      <div class="vibe-stage r d3">
+        <div class="vibe-img on" data-mode="day" style="background-image:url('IMG/food-day.png')"></div>
+        <div class="vibe-img" data-mode="night" style="background-image:url('IMG/food-night.png')"></div>
+        <div class="vibe-toggle" id="vibeToggle" data-on="day">
+          <span class="opt" data-m="day">יום</span><span class="opt" data-m="night">לילה</span>
+        </div>
       </div>
     </div>
   </section>
@@ -505,8 +513,8 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
       <div class="r d1"><span class="eyebrow" style="color:var(--gold);justify-content:center">האייטם המרכזי · אירוע הערב</span></div>
       <h2 class="big-title r d2" style="color:#fff">LIVE MUSICOLLAGE</h2>
       <p class="lede r d3" style="color:#cfe0ff;margin-inline:auto;text-align:center">העובדים הופכים לכוכבים — קליפ מוזיקלי שנערך במיוחד לשלמה ביטוח, על בסיס השיר המקורי של האירוע. רגעים מהחברה, משפטים פנימיים, אנרגיה קבוצתית והרבה הומור.</p>
-      <div class="ph wide tilt rippling r d4 zoom" style="max-width:760px;margin:30px auto 0;border-color:rgba(255,177,59,.6)">
-        <div class="ph-ic" style="font-size:46px">▶️</div><div class="ph-name" style="font-size:17px">מסך במה · קליפ העובדים</div><div class="ph-dim">וידאו · 16:9</div>
+      <div class="video-wrap r d4" style="max-width:820px;margin:30px auto 0">
+        <iframe src="https://www.youtube.com/embed/LKuj-a03lfU" title="LIVE MUSICOLLAGE" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       </div>
     </div>
     <svg class="waves wave-anim" viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#0f2547" d="M0 60c180 40 360 40 540 16s360-56 540-32 220 56 360 40v36H0z"/></svg>
@@ -623,6 +631,16 @@ document.querySelectorAll('.loc-card').forEach(card=>{
   card.addEventListener('pointerleave',()=>{ clearInterval(timer); timer=null; show(0); });
   card.addEventListener('click',()=>show(cur+1));
 });
+
+/* Food & Drinks day/night toggle */
+(function(){
+  const vt=document.getElementById('vibeToggle'); if(!vt) return;
+  const imgs=vt.parentElement.querySelectorAll('.vibe-img');
+  const opts=vt.querySelectorAll('.opt');
+  function setMode(m){ vt.dataset.on=m; imgs.forEach(im=>im.classList.toggle('on',im.dataset.mode===m)); opts.forEach(o=>o.classList.toggle('on',o.dataset.m===m)); }
+  opts.forEach(o=>o.addEventListener('click',()=>setMode(o.dataset.m)));
+  setMode('day');
+})();
 
 let sceneBeach=false;
 function toggleScene(){
