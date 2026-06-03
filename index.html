@@ -219,6 +219,18 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 .zone-scrim{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(4,14,32,.42) 0%,rgba(4,14,32,.16) 42%,rgba(4,14,32,.34) 100%)}
 .zone-panel{max-width:640px;background:rgba(7,22,46,.62);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:28px 32px;color:#fff;box-shadow:var(--shadow-lg)}
 .zone-panel h2{text-shadow:0 2px 14px rgba(0,0,0,.4)}
+
+/* END slide — full-bleed image, click anywhere to play */
+.end-slide{cursor:pointer;padding:0}
+.end-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+.end-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:3;font-family:'Fredoka';font-weight:600;color:#fff;background:rgba(7,22,46,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:11px 24px;border-radius:50px;font-size:14px;letter-spacing:.04em;animation:upbob 1.9s ease-in-out infinite;transition:opacity .5s}
+.end-hint.hidden{opacity:0;pointer-events:none}
+@keyframes upbob{50%{transform:translateX(-50%) translateY(-7px)}}
+.end-eq{position:absolute;bottom:40px;right:34px;z-index:3;display:none;align-items:flex-end;gap:5px;height:30px}
+.end-eq.on{display:flex}
+.end-eq span{width:6px;height:100%;background:#fff;border-radius:3px;transform-origin:bottom;animation:eqbar .9s ease-in-out infinite}
+.end-eq span:nth-child(2){animation-delay:.15s}.end-eq span:nth-child(3){animation-delay:.3s}.end-eq span:nth-child(4){animation-delay:.45s}
+@keyframes eqbar{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
 .zone-panel .lede{margin-top:14px}
 .zone-panel .chiprow{margin-top:16px}
 
@@ -544,15 +556,11 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
   </section>
 
   <!-- 16 CLOSING -->
-  <section class="slide bg-sunset" id="end" data-label="סיום">
-    <div class="sun glow" data-par="0.05" style="width:min(40vw,440px);height:min(40vw,440px);top:11%;left:50%;transform:translateX(-50%)"><div class="sun-lines"></div></div>
-    <svg class="palm" data-par="0.14" style="left:0;width:min(20vw,220px)" viewBox="0 0 120 200" fill="#2FB344"><path d="M60 200V70" stroke="#1d7a2e" stroke-width="9"/><path d="M60 70C30 40 8 50 0 64c20-2 34 6 60 14zM60 70C90 40 112 50 120 64c-20-2-34 6-60 14zM60 70C44 36 20 26 6 30c18 8 28 22 54 48zM60 70c16-34 40-44 54-40-18 8-28 22-54 48z"/></svg>
-    <div class="hero-wrap" style="text-align:center">
-      <p class="r d1" style="font-family:'Secular One';color:#fff;font-size:clamp(17px,2.2vw,26px);line-height:1.4">מוד עבודה כבוי. מוד חופש דלוק.</p>
-      <div class="r d2" style="margin:18px 0"><div class="logo-card"><img class="hero-logo" src="LOGO.png" alt="SHLOMODE" style="width:min(560px,74vw)"></div></div>
-      <p class="r d4" style="font-family:'Assistant';font-weight:600;color:#fff;font-size:clamp(16px,1.9vw,22px);margin-top:14px;max-width:34ch;margin-inline:auto">נשמח להפיק עבורכם חוויית עובדים צבעונית, קצבית ובלתי נשכחת.</p>
-    </div>
-    <svg class="waves wave-anim" viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#0F57C0" d="M0 60c180 40 360 40 540 16s360-56 540-32 220 56 360 40v36H0z"/></svg>
+  <section class="slide end-slide" id="end" data-label="סיום">
+    <div class="end-bg" style="background-image:url('IMG/END.png')"></div>
+    <audio id="endAudio" src="shlomo-darbuka.mp3" preload="auto"></audio>
+    <div class="end-hint" id="endHint">לחצו בכל מקום להפעלת השיר ▶</div>
+    <div class="end-eq" id="endEq" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
   </section>
 
 </div>
@@ -643,6 +651,17 @@ document.querySelectorAll('.loc-card').forEach(card=>{
   function setMode(m){ vt.dataset.on=m; imgs.forEach(im=>im.classList.toggle('on',im.dataset.mode===m)); opts.forEach(o=>o.classList.toggle('on',o.dataset.m===m)); }
   opts.forEach(o=>o.addEventListener('click',()=>setMode(o.dataset.m)));
   setMode('day');
+})();
+
+/* END slide — click anywhere to play/pause the song */
+(function(){
+  const sec=document.getElementById('end'); if(!sec) return;
+  const audio=document.getElementById('endAudio'), hint=document.getElementById('endHint'), eq=document.getElementById('endEq');
+  sec.addEventListener('click',()=>{
+    if(audio.paused){ audio.play().then(()=>{ if(hint)hint.classList.add('hidden'); if(eq)eq.classList.add('on'); }).catch(()=>{}); }
+    else { audio.pause(); if(eq)eq.classList.remove('on'); }
+  });
+  audio.addEventListener('ended',()=>{ if(eq)eq.classList.remove('on'); if(hint)hint.classList.remove('hidden'); });
 })();
 
 let sceneBeach=false;
