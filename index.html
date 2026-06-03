@@ -212,6 +212,14 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 .loc-dots i.on{background:#fff;width:18px;border-radius:4px}
 .campaign-img{margin-top:22px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:8px;box-shadow:var(--shadow-lg)}
 .campaign-img img{display:block;width:100%;max-height:40vh;object-fit:contain;border-radius:14px}
+
+/* ZONES — full-bleed render + readable text panel on top */
+.slide.zone{justify-content:flex-start;padding-top:104px;background:#0a2540}
+.zone-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+.zone-scrim{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(4,14,32,.42) 0%,rgba(4,14,32,.16) 42%,rgba(4,14,32,.34) 100%)}
+.zone-panel{max-width:640px;background:rgba(7,22,46,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:28px 32px;color:#fff;box-shadow:var(--shadow-lg)}
+.zone-panel .lede{margin-top:14px}
+.zone-panel .chiprow{margin-top:16px}
 @media(max-width:880px){.loc-grid{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr!important}}
 
 .progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--green),var(--gold),var(--sun));z-index:80;width:0;transition:width .15s}
@@ -416,86 +424,57 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
   </section>
 
   <!-- 10 RELAX -->
-  <section class="slide bg-green" id="z-relax" data-label="Relax Zone">
+  <section class="slide zone" id="z-relax" data-label="Relax Zone">
+    <div class="zone-bg" style="background-image:url('IMG/RELAX.png')"></div>
+    <div class="zone-scrim"></div>
     <div class="wrap">
-      <div class="journey-head r d1">
-        <div class="badge" style="background:linear-gradient(135deg,#fff3,#fff1)">🌴</div>
-        <div><span class="eyebrow" style="color:#eafff0">להוריד קצב</span><h2 class="big-title" style="color:#fff;font-size:clamp(32px,5vw,64px)">Relax Zone</h2></div>
-      </div>
-      <div class="two-col">
-        <div>
-          <p class="lede r d2" style="color:#eafff0">אזור הצ׳יל של האירוע — המקום לשבת מול הים, לנשום, להירגע ולהרגיש באמת בחופש.</p>
-          <div class="chiprow r d3">
-            <span class="chip">פופים ומחצלות</span><span class="chip">מיטות שיזוף</span><span class="chip">עיסויים</span>
-            <span class="chip">יוגה ומתיחות</span><span class="chip">מים ופירות</span><span class="chip">חכם בשמש</span>
-          </div>
+      <div class="zone-panel r d1">
+        <div class="journey-head">
+          <div class="badge" style="background:linear-gradient(135deg,var(--green-light),var(--green))">🌴</div>
+          <div><span class="eyebrow" style="color:#d6ffe9">להוריד קצב</span><h2 class="big-title" style="color:#fff;font-size:clamp(30px,5vw,58px)">Relax Zone</h2></div>
         </div>
-        <div>
-          <span class="lf-label r d2" style="color:#fff">🎨 LOOK & FEEL</span>
-          <div class="lf-grid">
-            <div class="ph tilt r d3"><div class="ph-ic">🛋️</div><div class="ph-name">פינת צ׳יל מוצלת</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph tilt r d4"><div class="ph-ic">🧘</div><div class="ph-name">עמדת וולנס</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph tilt r d5"><div class="ph-ic">⛱️</div><div class="ph-name">שמשיות ומגבות</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph tilt r d6"><div class="ph-ic">☀️</div><div class="ph-name">חכם בשמש</div><div class="ph-dim">הדמיה</div></div>
-          </div>
+        <p class="lede" style="color:#eafff5">אזור הצ׳יל של האירוע — המקום לשבת מול הים, לנשום, להירגע ולהרגיש באמת בחופש.</p>
+        <div class="chiprow">
+          <span class="chip">פופים ומחצלות</span><span class="chip">מיטות שיזוף</span><span class="chip">עיסויים</span>
+          <span class="chip">יוגה ומתיחות</span><span class="chip">מים ופירות</span><span class="chip">חכם בשמש</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 11 RECHARGE -->
-  <section class="slide bg-sunset" id="z-recharge" data-label="Recharge Zone">
-    <div class="sun glow" data-par="0.06" style="width:min(22vw,240px);height:min(22vw,240px);top:8%;left:6%"></div>
+  <section class="slide zone" id="z-recharge" data-label="Recharge Zone">
+    <div class="zone-bg" style="background-image:url('IMG/RECHARGE.png')"></div>
+    <div class="zone-scrim"></div>
     <div class="wrap">
-      <div class="journey-head r d1">
-        <div class="badge" style="background:linear-gradient(135deg,var(--sun),var(--sun-deep))">⚡</div>
-        <div><span class="eyebrow" style="color:#fff">להרים אנרגיה</span><h2 class="big-title" style="color:#fff;font-size:clamp(32px,5vw,64px)">Recharge Zone</h2></div>
-      </div>
-      <div class="two-col">
-        <div>
-          <p class="lede r d2" style="color:#fff">מתחם הפעילות והקצב — האזור שבו הים, המוזיקה והאקשן מתחברים לחוויה אחת.</p>
-          <div class="chiprow r d3">
-            <span class="chip">סאפ</span><span class="chip">קיאקים</span><span class="chip">אבוב / בננה</span>
-            <span class="chip">מתקנים צפים</span><span class="chip">משחקי מים</span><span class="chip">DJ חוף</span>
-          </div>
+      <div class="zone-panel r d1">
+        <div class="journey-head">
+          <div class="badge" style="background:linear-gradient(135deg,var(--sun),var(--sun-deep))">⚡</div>
+          <div><span class="eyebrow" style="color:#ffe6cf">להרים אנרגיה</span><h2 class="big-title" style="color:#fff;font-size:clamp(30px,5vw,58px)">Recharge Zone</h2></div>
         </div>
-        <div>
-          <span class="lf-label r d2" style="color:#fff">🎨 LOOK & FEEL</span>
-          <div class="lf-grid">
-            <div class="ph tilt r d3"><div class="ph-ic">🏄</div><div class="ph-name">פעילות ימית</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph tilt r d4"><div class="ph-ic">🛟</div><div class="ph-name">מתקנים צפים</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph tilt r d5"><div class="ph-ic">🎶</div><div class="ph-name">DJ על החוף</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph tilt r d6"><div class="ph-ic">🚩</div><div class="ph-name">שילוט Recharge</div><div class="ph-dim">הדמיה</div></div>
-          </div>
+        <p class="lede" style="color:#fff">מתחם הפעילות והקצב — האזור שבו הים, המוזיקה והאקשן מתחברים לחוויה אחת.</p>
+        <div class="chiprow">
+          <span class="chip">סאפ</span><span class="chip">קיאקים</span><span class="chip">אבוב / בננה</span>
+          <span class="chip">מתקנים צפים</span><span class="chip">משחקי מים</span><span class="chip">DJ חוף</span>
         </div>
       </div>
     </div>
-    <svg class="waves wave-anim" viewBox="0 0 1440 120" preserveAspectRatio="none"><path fill="#0F57C0" d="M0 60c180 40 360 40 540 16s360-56 540-32 220 56 360 40v36H0z"/></svg>
   </section>
 
   <!-- 12 RECONNECT -->
-  <section class="slide bg-ocean" id="z-reconnect" data-label="Reconnect Zone">
+  <section class="slide zone" id="z-reconnect" data-label="Reconnect Zone">
+    <div class="zone-bg" style="background-image:url('IMG/RECONNECT.png')"></div>
+    <div class="zone-scrim"></div>
     <div class="wrap">
-      <div class="journey-head r d1">
-        <div class="badge" style="background:linear-gradient(135deg,var(--sky),var(--navy))">🤝</div>
-        <div><span class="eyebrow" style="color:var(--sky-light)">להתחבר מחדש</span><h2 class="big-title" style="color:#fff;font-size:clamp(32px,5vw,64px)">Reconnect Zone</h2></div>
-      </div>
-      <div class="two-col">
-        <div>
-          <p class="lede r d2" style="color:#DDE9FF">מתחם המשחקים והמפגש. בלי משימות מאולצות, בלי תחרות כבדה — פשוט זמן יחד.</p>
-          <div class="chiprow r d3">
-            <span class="chip">ששבש</span><span class="chip">שחמט ודמקה</span><span class="chip">דומינו וקלפים</span>
-            <span class="chip">דוקים</span><span class="chip">משחקי חוף</span><span class="chip">שולחנות ישיבה</span>
-          </div>
+      <div class="zone-panel r d1">
+        <div class="journey-head">
+          <div class="badge" style="background:linear-gradient(135deg,var(--sky),var(--navy))">🤝</div>
+          <div><span class="eyebrow" style="color:var(--sky-light)">להתחבר מחדש</span><h2 class="big-title" style="color:#fff;font-size:clamp(30px,5vw,58px)">Reconnect Zone</h2></div>
         </div>
-        <div>
-          <span class="lf-label r d2" style="color:#fff">🎨 LOOK & FEEL</span>
-          <div class="lf-grid">
-            <div class="ph tilt r d3"><div class="ph-ic">🎲</div><div class="ph-name">שולחנות משחק</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph tilt r d4"><div class="ph-ic">🪑</div><div class="ph-name">אזור ישיבה</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph tilt r d5"><div class="ph-ic">😄</div><div class="ph-name">אנשים משחקים</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph tilt r d6"><div class="ph-ic">🥤</div><div class="ph-name">כוסות קיץ</div><div class="ph-dim">הדמיה</div></div>
-          </div>
+        <p class="lede" style="color:#e3edfb">מתחם המשחקים והמפגש. בלי משימות מאולצות, בלי תחרות כבדה — פשוט זמן יחד.</p>
+        <div class="chiprow">
+          <span class="chip">ששבש</span><span class="chip">שחמט ודמקה</span><span class="chip">דומינו וקלפים</span>
+          <span class="chip">דוקים</span><span class="chip">משחקי חוף</span><span class="chip">שולחנות ישיבה</span>
         </div>
       </div>
     </div>
