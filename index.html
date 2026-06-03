@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SHLOMODE — אירוע עובדי שלמה ביטוח</title>
+<link rel="icon" type="image/png" href="IMG/ICON.png">
+<link rel="apple-touch-icon" href="IMG/ICON.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Secular+One&family=Rubik:wght@400;500;700;900&family=Assistant:wght@300;400;600;800&family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -192,6 +194,25 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 .ph .ph-dim{font-family:'Fredoka';font-size:10px;letter-spacing:.1em;opacity:.6;text-transform:uppercase}
 .ph.wide{aspect-ratio:16/9}
 
+/* OPTION A — schedule on top + location slideshows */
+.sched-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0 20px}
+.sched{background:rgba(255,255,255,.92);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);text-align:center}
+.sched .t{display:block;font-family:'Fredoka';font-weight:700;color:var(--sun-deep);font-size:18px}
+.sched .e{display:block;font-family:'Assistant';font-weight:600;color:var(--ink);font-size:13px;margin-top:5px;line-height:1.35}
+.loc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.loc-card{position:relative;aspect-ratio:3/4;border-radius:20px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;background:#0b2a52;transition:transform .35s}
+.loc-card:hover{transform:translateY(-6px)}
+.loc-img{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .8s ease}
+.loc-img.on{opacity:1}
+.loc-card::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(0deg,rgba(5,18,42,.82) 0%,rgba(5,18,42,.15) 42%,rgba(5,18,42,0) 68%)}
+.loc-name{position:absolute;bottom:0;right:0;left:0;z-index:2;padding:16px 18px;color:#fff;font-family:'Secular One';font-size:clamp(16px,1.4vw,21px);text-align:right;text-shadow:0 2px 10px rgba(0,0,0,.55)}
+.loc-dots{position:absolute;top:12px;left:12px;z-index:2;display:flex;gap:5px}
+.loc-dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);transition:.3s}
+.loc-dots i.on{background:#fff;width:18px;border-radius:4px}
+.campaign-img{margin-top:22px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);padding:8px;box-shadow:var(--shadow-lg)}
+.campaign-img img{display:block;width:100%;max-height:40vh;object-fit:contain;border-radius:14px}
+@media(max-width:880px){.sched-row{grid-template-columns:repeat(2,1fr)}.loc-grid{grid-template-columns:repeat(2,1fr)}.cards{grid-template-columns:1fr!important}}
+
 .progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--green),var(--gold),var(--sun));z-index:80;width:0;transition:width .15s}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:center;gap:14px;padding:9px clamp(12px,2vw,22px);
   background:rgba(255,255,255,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 6px 24px -12px rgba(8,33,69,.4)}
@@ -317,22 +338,13 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
     <div class="wrap">
       <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--gold)">לפני שמגיעים</span></div>
       <h2 class="big-title r d1" style="color:#fff">קמפיין מקדים והרשמה</h2>
-      <p class="lede r d2" style="color:#DDE9FF">החוויה מתחילה הרבה לפני האירוע. קמפיין שמכניס את העובדים בהדרגה ל־SHLOMODE — עם ג׳ינגל מקורי שהופך לפסקול של האירוע, לפני, במהלך ואחרי.</p>
-      <div class="two-col" style="align-items:start">
-        <div>
-          <div class="cards" style="grid-template-columns:1fr;margin-top:24px">
-            <div class="card tilt rippling r d3 from-r"><h4>🎬 טיזרים ורמזים</h4><p>חשיפת קונספט ולוקיישן, ספירה לאחור ותזכורות שמייצרים ציפייה.</p></div>
-            <div class="card tilt rippling r d4 from-r"><h4>📝 עמוד הרשמה ממותג</h4><p>קליל, ברור וצבעוני — פרטי האירוע, לו״ז ובחירת פעילות.</p></div>
-            <div class="card tilt rippling r d5 from-r"><h4>🎶 ג׳ינגל מקורי</h4><p>קצבי, שמחבר שלמה · חוף · קיץ · אנרגיה.</p></div>
-          </div>
-        </div>
-        <div class="lf-grid" style="grid-template-columns:1fr 1fr;margin-top:24px">
-          <div class="ph tilt r d3"><div class="ph-ic">📱</div><div class="ph-name">מסך הרשמה</div><div class="ph-dim">מובייל</div></div>
-          <div class="ph tilt r d4"><div class="ph-ic">💬</div><div class="ph-name">הודעת טיזר</div><div class="ph-dim">מובייל</div></div>
-          <div class="ph tilt r d5"><div class="ph-ic">🔆</div><div class="ph-name">כפתור SHLOMODE ON</div><div class="ph-dim">הדמיה</div></div>
-          <div class="ph tilt r d6"><div class="ph-ic">🔊</div><div class="ph-name">אייקון ג׳ינגל</div><div class="ph-dim">הדמיה</div></div>
-        </div>
+      <p class="lede r d2" style="color:#DDE9FF;max-width:80ch">החוויה מתחילה הרבה לפני האירוע. קמפיין שמכניס את העובדים בהדרגה ל־SHLOMODE — עם ג׳ינגל מקורי שהופך לפסקול של האירוע, לפני, במהלך ואחרי.</p>
+      <div class="cards r d3" style="grid-template-columns:repeat(3,1fr);margin-top:20px">
+        <div class="card tilt rippling"><h4>🎬 טיזרים ורמזים</h4><p>חשיפת קונספט ולוקיישן, ספירה לאחור ותזכורות שמייצרים ציפייה.</p></div>
+        <div class="card tilt rippling"><h4>📝 עמוד הרשמה ממותג</h4><p>קליל, ברור וצבעוני — פרטי האירוע, לו״ז ובחירת פעילות.</p></div>
+        <div class="card tilt rippling"><h4>🎶 ג׳ינגל מקורי</h4><p>קצבי, שמחבר שלמה · חוף · קיץ · אנרגיה.</p></div>
       </div>
+      <div class="campaign-img r d4"><img src="IMG/ATAR.png" alt="הדמיית עמוד ההרשמה הממותג"></div>
     </div>
   </section>
 
@@ -341,24 +353,17 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
     <div class="wrap">
       <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--royal)">אופציה א׳</span></div>
       <h2 class="big-title r d1" style="color:var(--navy)">יום חוף · אירוע חד־יומי</h2>
-      <div class="two-col" style="align-items:start">
-        <div class="r d2 from-r">
-          <div class="tl">
-            <div class="tl-row"><span class="t">09:00</span><span class="e">קבלת פנים</span></div>
-            <div class="tl-row"><span class="t">10:00</span><span class="e">מתחמי חוף, וולנס, פעילות ימית, מוזיקה ומשחקים</span></div>
-            <div class="tl-row"><span class="t">14:00</span><span class="e">ארוחת צהריים</span></div>
-            <div class="tl-row"><span class="t">16:00</span><span class="e">סיום משוער</span></div>
-          </div>
-        </div>
-        <div>
-          <span class="lf-label r d2" style="color:var(--navy)">📍 לוקיישנים אפשריים</span>
-          <div class="lf-grid" style="grid-template-columns:1fr 1fr;margin-top:14px">
-            <div class="ph light tilt r d3"><div class="ph-ic">🏖️</div><div class="ph-name">כיף ים, קיסריה</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph light tilt r d4"><div class="ph-ic">🌊</div><div class="ph-name">מנאו, חבצלת השרון</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph light tilt r d5"><div class="ph-ic">🌴</div><div class="ph-name">יאמאס, חוף דור</div><div class="ph-dim">הדמיה</div></div>
-            <div class="ph light tilt r d6"><div class="ph-ic">🌅</div><div class="ph-name">בורה בורה, כנרת</div><div class="ph-dim">הדמיה</div></div>
-          </div>
-        </div>
+      <div class="sched-row r d2">
+        <div class="sched"><span class="t">09:00</span><span class="e">קבלת פנים</span></div>
+        <div class="sched"><span class="t">10:00</span><span class="e">מתחמי חוף, וולנס, פעילות ימית ומשחקים</span></div>
+        <div class="sched"><span class="t">14:00</span><span class="e">ארוחת צהריים</span></div>
+        <div class="sched"><span class="t">16:00</span><span class="e">סיום משוער</span></div>
+      </div>
+      <div class="loc-grid r d3">
+        <div class="loc-card" data-loc="kefyam"><div class="loc-name">כיף ים, קיסריה</div><div class="loc-dots"></div></div>
+        <div class="loc-card" data-loc="manao"><div class="loc-name">מנאו, חבצלת השרון</div><div class="loc-dots"></div></div>
+        <div class="loc-card" data-loc="yamas"><div class="loc-name">יאמאס, חוף דור</div><div class="loc-dots"></div></div>
+        <div class="loc-card" data-loc="borabora"><div class="loc-name">בורה בורה, כנרת</div><div class="loc-dots"></div></div>
       </div>
     </div>
   </section>
@@ -627,6 +632,24 @@ document.querySelectorAll('.rippling').forEach(el=>{
     dot.style.top=(ev.clientY-r.top-d/2)+'px';
     el.appendChild(dot);setTimeout(()=>dot.remove(),700);
   });
+});
+
+/* location slideshows (Option A): 3.5s auto-advance + click, staggered */
+const LOC_CFG={kefyam:5,manao:5,yamas:5,borabora:6};
+document.querySelectorAll('.loc-card').forEach((card,ci)=>{
+  const key=card.dataset.loc, n=LOC_CFG[key]||0; if(!n) return;
+  const dotsWrap=card.querySelector('.loc-dots'); const imgs=[];
+  for(let i=1;i<=n;i++){
+    const d=document.createElement('div'); d.className='loc-img'+(i===1?' on':'');
+    d.style.backgroundImage="url('IMG/loc/"+key+"-"+i+".jpg')";
+    card.insertBefore(d, card.firstChild); imgs.push(d);
+    const dot=document.createElement('i'); if(i===1) dot.classList.add('on'); dotsWrap.appendChild(dot);
+  }
+  const dots=[...dotsWrap.children]; let cur=0, timer=null;
+  function show(idx){imgs[cur].classList.remove('on');dots[cur].classList.remove('on');cur=((idx%n)+n)%n;imgs[cur].classList.add('on');dots[cur].classList.add('on');}
+  function start(){ if(reduce) return; if(timer)clearInterval(timer); timer=setInterval(()=>show(cur+1),3500); }
+  card.addEventListener('click',()=>{show(cur+1);start();});
+  setTimeout(start, ci*700);
 });
 
 let sceneBeach=false;
