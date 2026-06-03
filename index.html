@@ -222,7 +222,7 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 
 /* END slide — full-bleed image, click anywhere to play */
 .end-slide{cursor:pointer;padding:0}
-.end-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
+.end-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;will-change:transform,filter}
 .end-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:3;font-family:'Fredoka';font-weight:600;color:#fff;background:rgba(7,22,46,.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:11px 24px;border-radius:50px;font-size:14px;letter-spacing:.04em;animation:upbob 1.9s ease-in-out infinite;transition:opacity .5s}
 .end-hint.hidden{opacity:0;pointer-events:none}
 @keyframes upbob{50%{transform:translateX(-50%) translateY(-7px)}}
@@ -231,6 +231,33 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 .end-eq span{width:6px;height:100%;background:#fff;border-radius:3px;transform-origin:bottom;animation:eqbar .9s ease-in-out infinite}
 .end-eq span:nth-child(2){animation-delay:.15s}.end-eq span:nth-child(3){animation-delay:.3s}.end-eq span:nth-child(4){animation-delay:.45s}
 @keyframes eqbar{0%,100%{transform:scaleY(.3)}50%{transform:scaleY(1)}}
+/* THANK YOU + center play + running frame lights */
+.end-center{position:absolute;top:78px;left:0;right:0;z-index:4;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center}
+.end-center::before{content:"";position:absolute;inset:-30px -10% -40px;z-index:-1;background:radial-gradient(closest-side,rgba(5,12,26,.6),transparent 80%)}
+.end-thanks{font-family:'Fredoka';font-weight:700;font-size:clamp(46px,9.5vw,128px);line-height:1;letter-spacing:.01em;color:#fff;text-shadow:0 8px 34px rgba(0,0,0,.6),0 2px 4px rgba(0,0,0,.5)}
+.end-sub{font-family:'Secular One';font-size:clamp(16px,2.2vw,26px);color:#fff;margin-top:14px;text-shadow:0 3px 18px rgba(0,0,0,.6)}
+.end-play{width:clamp(74px,9vw,106px);height:clamp(74px,9vw,106px);margin-top:28px;border-radius:50%;display:grid;place-items:center;cursor:pointer;pointer-events:auto;
+  background:linear-gradient(135deg,var(--sun),var(--sun-deep));box-shadow:0 16px 44px -10px rgba(255,78,14,.7),0 0 0 9px rgba(255,255,255,.16);transition:transform .25s,box-shadow .25s}
+.end-play:hover{transform:scale(1.08)}
+.end-play svg{width:44%;height:44%;fill:#fff}
+.end-play .i-play{margin-inline-start:8%}
+.end-play .i-pause{display:none}
+.end-play.playing .i-play{display:none}
+.end-play.playing .i-pause{display:block}
+/* concert light beams crossing the frame */
+.end-lights{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;opacity:0;transition:opacity .5s;mix-blend-mode:screen}
+.end-lights.lit{opacity:1}
+.beamwrap{position:absolute;top:-6%;transform-origin:top center}
+.beam{display:block;width:74px;height:160vh;transform-origin:top center;filter:blur(4px);animation:beamSway 4s ease-in-out infinite alternate}
+.b-org{background:linear-gradient(to bottom,rgba(255,150,50,.92),rgba(255,140,40,.28) 45%,rgba(255,140,40,0) 72%)}
+.b-blue{background:linear-gradient(to bottom,rgba(70,190,255,.9),rgba(52,180,240,.26) 45%,rgba(52,180,240,0) 72%)}
+.b-grn{background:linear-gradient(to bottom,rgba(80,225,110,.85),rgba(60,205,95,.24) 45%,rgba(60,205,95,0) 72%)}
+@keyframes beamSway{from{transform:rotate(-9deg)}to{transform:rotate(9deg)}}
+.beamwrap:nth-child(2) .beam{animation-duration:5.2s}
+.beamwrap:nth-child(3) .beam{animation-duration:3.4s}
+.beamwrap:nth-child(4) .beam{animation-duration:4.6s}
+.beamwrap:nth-child(5) .beam{animation-duration:3.9s}
+.beamwrap:nth-child(6) .beam{animation-duration:4.3s}
 .zone-panel .lede{margin-top:14px}
 .zone-panel .chiprow{margin-top:16px}
 
@@ -253,7 +280,7 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 .progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--green),var(--gold),var(--sun));z-index:80;width:0;transition:width .15s}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:70;display:flex;align-items:center;gap:14px;padding:9px clamp(12px,2vw,22px);
   background:rgba(255,255,255,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 6px 24px -12px rgba(8,33,69,.4)}
-.tb-brand{flex:none;display:flex;align-items:center}
+.tb-brand{flex:none;display:flex;align-items:center;cursor:pointer}
 .tb-brand img{height:30px;display:block}
 .tb-nav{display:flex;gap:6px;overflow-x:auto;flex:1;padding:2px;scrollbar-width:none;scroll-behavior:smooth}
 .tb-nav::-webkit-scrollbar{display:none}
@@ -557,9 +584,23 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 
   <!-- 16 CLOSING -->
   <section class="slide end-slide" id="end" data-label="סיום">
-    <div class="end-bg" style="background-image:url('IMG/END.png')"></div>
+    <div class="end-bg" id="endBg" style="background-image:url('IMG/END.png')"></div>
+    <div class="end-lights" id="endLights">
+      <span class="beamwrap" style="left:10%;transform:rotate(-24deg)"><span class="beam b-org"></span></span>
+      <span class="beamwrap" style="left:30%;transform:rotate(-11deg)"><span class="beam b-blue"></span></span>
+      <span class="beamwrap" style="left:48%;transform:rotate(1deg)"><span class="beam b-grn"></span></span>
+      <span class="beamwrap" style="left:64%;transform:rotate(12deg)"><span class="beam b-org"></span></span>
+      <span class="beamwrap" style="left:84%;transform:rotate(23deg)"><span class="beam b-blue"></span></span>
+    </div>
     <audio id="endAudio" src="shlomo-darbuka.mp3" preload="auto"></audio>
-    <div class="end-hint" id="endHint">לחצו בכל מקום להפעלת השיר ▶</div>
+    <div class="end-center">
+      <h2 class="end-thanks">THANK YOU</h2>
+      <p class="end-sub">תתכוננו להיכנס ל־SHLOMODE</p>
+      <div class="end-play" id="endPlay" aria-label="הפעל / עצור">
+        <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      </div>
+    </div>
     <div class="end-eq" id="endEq" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
   </section>
 
@@ -656,13 +697,35 @@ document.querySelectorAll('.loc-card').forEach(card=>{
 /* END slide — click anywhere to play/pause the song */
 (function(){
   const sec=document.getElementById('end'); if(!sec) return;
-  const audio=document.getElementById('endAudio'), hint=document.getElementById('endHint'), eq=document.getElementById('endEq');
+  const audio=document.getElementById('endAudio'), eq=document.getElementById('endEq'), pb=document.getElementById('endPlay'),
+        lights=document.getElementById('endLights'), bg=document.getElementById('endBg');
+  let actx, analyser, data, raf, srcMade=false;
+  function viz(){
+    analyser.getByteFrequencyData(data);
+    let s=0; for(let i=0;i<data.length;i++) s+=data[i]; const a=s/data.length/255; // 0..1 loudness
+    if(bg){ bg.style.transform='scale('+(1+a*0.09).toFixed(3)+')'; bg.style.filter='brightness('+(1+a*0.28).toFixed(3)+')'; }
+    if(lights) lights.style.opacity=(0.45+a*0.75).toFixed(2);
+    raf=requestAnimationFrame(viz);
+  }
+  function startViz(){
+    try{
+      if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)();
+      if(!srcMade){ const src=actx.createMediaElementSource(audio); analyser=actx.createAnalyser(); analyser.fftSize=256; src.connect(analyser); analyser.connect(actx.destination); data=new Uint8Array(analyser.frequencyBinCount); srcMade=true; }
+      if(actx.state==='suspended') actx.resume();
+      cancelAnimationFrame(raf); viz();
+    }catch(e){}
+  }
+  function stopViz(){ cancelAnimationFrame(raf); if(bg){bg.style.transform='';bg.style.filter='';} if(lights)lights.style.opacity=''; }
+  function setPlaying(p){ if(pb)pb.classList.toggle('playing',p); if(lights)lights.classList.toggle('lit',p); if(eq)eq.classList.toggle('on',p); if(p)startViz(); else stopViz(); }
   sec.addEventListener('click',()=>{
-    if(audio.paused){ audio.play().then(()=>{ if(hint)hint.classList.add('hidden'); if(eq)eq.classList.add('on'); }).catch(()=>{}); }
-    else { audio.pause(); if(eq)eq.classList.remove('on'); }
+    if(audio.paused){ audio.play().then(()=>setPlaying(true)).catch(()=>{}); }
+    else { audio.pause(); setPlaying(false); }
   });
-  audio.addEventListener('ended',()=>{ if(eq)eq.classList.remove('on'); if(hint)hint.classList.remove('hidden'); });
+  audio.addEventListener('ended',()=>setPlaying(false));
 })();
+
+/* logo (top-right) jumps to the opening slide */
+(function(){ const b=document.querySelector('.tb-brand'); if(b) b.addEventListener('click',()=>document.getElementById('hero').scrollIntoView({behavior:'smooth'})); })();
 
 let sceneBeach=false;
 function toggleScene(){
