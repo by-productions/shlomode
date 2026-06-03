@@ -217,17 +217,22 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
 .slide.zone{justify-content:flex-start;padding-top:104px;background:#0a2540}
 .zone-bg{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0}
 .zone-scrim{position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(4,14,32,.42) 0%,rgba(4,14,32,.16) 42%,rgba(4,14,32,.34) 100%)}
-.zone-panel{max-width:640px;background:rgba(7,22,46,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.16);border-radius:24px;padding:28px 32px;color:#fff;box-shadow:var(--shadow-lg)}
+.zone-panel{max-width:640px;background:rgba(7,22,46,.62);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:28px 32px;color:#fff;box-shadow:var(--shadow-lg)}
+.zone-panel h2{text-shadow:0 2px 14px rgba(0,0,0,.4)}
 .zone-panel .lede{margin-top:14px}
 .zone-panel .chiprow{margin-top:16px}
 
-/* FOOD/DRINKS day-night toggle stage */
-.vibe-stage{position:relative;margin-top:20px;height:min(54vh,480px);width:100%;border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);background:#0a2540}
-.vibe-img{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .8s ease}
+/* FOOD/DRINKS day-night full-bleed images + toggle inside panel */
+.vibe-img{position:absolute;inset:0;background-size:cover;background-position:center;z-index:0;opacity:0;transition:opacity .8s ease}
 .vibe-img.on{opacity:1}
-.vibe-toggle{position:absolute;top:16px;left:50%;transform:translateX(-50%);z-index:3;display:inline-flex;background:rgba(7,22,46,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);border-radius:50px;padding:5px}
-.vibe-toggle .opt{font-family:'Fredoka';font-weight:700;font-size:15px;color:#fff;padding:9px 24px;border-radius:50px;cursor:pointer;transition:.4s;opacity:.78}
+.vibe-toggle{display:inline-flex;margin-top:18px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32);border-radius:50px;padding:5px;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.vibe-toggle .opt{font-family:'Fredoka';font-weight:700;font-size:15px;color:#fff;padding:9px 26px;border-radius:50px;cursor:pointer;transition:.4s;opacity:.78}
 .vibe-toggle .opt.on{opacity:1;background:linear-gradient(135deg,var(--sun),var(--sun-deep));box-shadow:0 6px 16px -8px rgba(255,78,14,.6)}
+/* drifting cloud-shadow effect (giveaway) */
+.cloud-fx{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:multiply;opacity:.5;background-repeat:no-repeat;background-size:140% 140%;
+  background-image:radial-gradient(42% 55% at 20% 30%,rgba(8,16,34,.6),transparent 62%),radial-gradient(46% 50% at 62% 62%,rgba(8,16,34,.5),transparent 64%),radial-gradient(36% 46% at 86% 26%,rgba(8,16,34,.55),transparent 62%)}
+.cloud-fx{animation:cloudDrift 36s linear infinite}
+@keyframes cloudDrift{0%{background-position:-20% 0%,10% 50%,50% 20%}100%{background-position:120% 0%,150% 50%,190% 20%}}
 /* responsive video */
 .video-wrap{position:relative;width:100%;aspect-ratio:16/9;border-radius:22px;overflow:hidden;box-shadow:var(--shadow-lg);background:#000}
 .video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
@@ -421,16 +426,19 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
   </section>
 
   <!-- 9 WELCOME -->
-  <section class="slide bg-ocean" id="welcome" data-label="קבלת פנים">
+  <section class="slide zone" id="welcome" data-label="קבלת פנים">
+    <div class="zone-bg" style="background-image:url('IMG/KABALAT.png')"></div>
+    <div class="zone-scrim"></div>
     <div class="wrap">
-      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--gold)">רגע המעבר</span></div>
-      <h2 class="big-title r d1" style="color:#fff">קבלת פנים</h2>
-      <p class="lede r d2" style="color:#DDE9FF;max-width:80ch">הכניסה היא רגע המעבר מהשגרה לחוויה. כבר מהרגע הראשון ברור — זה לא עוד יום עבודה. זה SHLOMODE.</p>
-      <div class="chiprow r d3">
-        <span class="chip">צ׳ק אין ממותג</span><span class="chip">משקה פתיחה</span>
-        <span class="chip">אביזרי חוף</span><span class="chip">צילום ראשון</span><span class="chip">מוזיקה</span>
+      <div class="zone-panel r d1">
+        <span class="eyebrow" style="color:var(--gold)">רגע המעבר</span>
+        <h2 class="big-title" style="color:#fff;font-size:clamp(30px,5vw,58px);margin-top:8px">קבלת פנים</h2>
+        <p class="lede" style="color:#fff">הכניסה היא רגע המעבר מהשגרה לחוויה. כבר מהרגע הראשון ברור — זה לא עוד יום עבודה. זה SHLOMODE.</p>
+        <div class="chiprow">
+          <span class="chip">צ׳ק אין ממותג</span><span class="chip">משקה פתיחה</span>
+          <span class="chip">אביזרי חוף</span><span class="chip">צילום ראשון</span><span class="chip">מוזיקה</span>
+        </div>
       </div>
-      <div class="campaign-img r d4"><img src="IMG/KABALAT.png" alt="הדמיית קבלת פנים"></div>
     </div>
   </section>
 
@@ -492,14 +500,15 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
   </section>
 
   <!-- 13 FOOD DRINKS MUSIC -->
-  <section class="slide bg-cream" id="vibe" data-label="Food · Drinks · Music">
+  <section class="slide zone" id="vibe" data-label="Food · Drinks · Music">
+    <div class="vibe-img on" data-mode="day" style="background-image:url('IMG/food-day.png?v=3')"></div>
+    <div class="vibe-img" data-mode="night" style="background-image:url('IMG/food-night.png?v=3')"></div>
+    <div class="zone-scrim"></div>
     <div class="wrap">
-      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--sun-deep)">הטעם והקצב</span></div>
-      <h2 class="big-title r d1" style="color:var(--navy)">Food, Drinks &amp; Music</h2>
-      <p class="lede r d2" style="color:var(--ink);max-width:80ch">אווירה שמרגישה כמו חופשת חוף ישראלית — צבעונית, שמחה, משוחררת וקצבית, עם ג׳ינגל האירוע שחוזר לאורך היום. מבוקר עד לילה.</p>
-      <div class="vibe-stage r d3">
-        <div class="vibe-img on" data-mode="day" style="background-image:url('IMG/food-day.png')"></div>
-        <div class="vibe-img" data-mode="night" style="background-image:url('IMG/food-night.png')"></div>
+      <div class="zone-panel r d1">
+        <span class="eyebrow" style="color:#ffe6cf">הטעם והקצב</span>
+        <h2 class="big-title" style="color:#fff;font-size:clamp(30px,5vw,56px);margin-top:8px">Food, Drinks &amp; Music</h2>
+        <p class="lede" style="color:#fff">אווירה שמרגישה כמו חופשת חוף ישראלית — צבעונית, שמחה, משוחררת וקצבית, עם ג׳ינגל האירוע שחוזר לאורך היום. מבוקר עד לילה.</p>
         <div class="vibe-toggle" id="vibeToggle" data-on="day">
           <span class="opt" data-m="day">יום</span><span class="opt" data-m="night">לילה</span>
         </div>
@@ -521,22 +530,16 @@ h1,h2,h3,.disp{font-family:'Secular One',sans-serif;font-weight:400;line-height:
   </section>
 
   <!-- 15 GIVEAWAY -->
-  <section class="slide bg-day" id="giveaway" data-label="GIVEAWAY">
+  <section class="slide zone" id="giveaway" data-label="GIVEAWAY">
+    <div class="zone-bg" style="background-image:url('IMG/GIVEAWAY.png')"></div>
+    <div class="cloud-fx"></div>
+    <div class="zone-scrim"></div>
     <div class="wrap">
-      <div class="kicker-row r d1"><span class="eyebrow" style="color:var(--royal)">לקחת הביתה</span></div>
-      <h2 class="big-title r d1" style="color:var(--navy)">GIVEAWAY</h2>
-      <p class="lede r d2" style="color:var(--ink)">מזכרות שימושיות שממשיכות את החוויה גם אחרי האירוע — לא מתנה גנרית, אלא חלק מ־SHLOMODE.</p>
-      <div class="lf-grid">
-        <div class="ph light tilt r d2"><div class="ph-ic">🏖️</div><div class="ph-name">מגבת חוף</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d2"><div class="ph-ic">👜</div><div class="ph-name">תיק חוף</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d3"><div class="ph-ic">🧢</div><div class="ph-name">כובע</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d3"><div class="ph-ic">🍶</div><div class="ph-name">בקבוק שתייה</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d4"><div class="ph-ic">🧴</div><div class="ph-name">תכשירי הגנה</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d4"><div class="ph-ic">☕</div><div class="ph-name">פק״ל קפה</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d5"><div class="ph-ic">🎲</div><div class="ph-name">ערכת משחקים</div><div class="ph-dim">הדמיה</div></div>
-        <div class="ph light tilt r d5"><div class="ph-ic">⛱️</div><div class="ph-name">אביזרי חוף</div><div class="ph-dim">הדמיה</div></div>
+      <div class="zone-panel r d1">
+        <span class="eyebrow" style="color:#ffe6cf">לקחת הביתה</span>
+        <h2 class="big-title latin" style="color:#fff;font-size:clamp(34px,6vw,68px);margin-top:8px">GIVEAWAY</h2>
+        <p class="lede" style="color:#fff">מזכרות שימושיות שממשיכות את החוויה גם אחרי האירוע — לא מתנה גנרית, אלא חלק מ־SHLOMODE.</p>
       </div>
-      <div class="note light r d6">💡 רעיון לויז׳ואל: <strong>Flat lay</strong> של כל הגיבאווי על חול/רקע לבן — תיק, מגבת, כובע, בקבוק, משחקים, קרם הגנה ופק״ל קפה.</div>
     </div>
   </section>
 
@@ -635,7 +638,7 @@ document.querySelectorAll('.loc-card').forEach(card=>{
 /* Food & Drinks day/night toggle */
 (function(){
   const vt=document.getElementById('vibeToggle'); if(!vt) return;
-  const imgs=vt.parentElement.querySelectorAll('.vibe-img');
+  const imgs=document.querySelectorAll('#vibe .vibe-img');
   const opts=vt.querySelectorAll('.opt');
   function setMode(m){ vt.dataset.on=m; imgs.forEach(im=>im.classList.toggle('on',im.dataset.mode===m)); opts.forEach(o=>o.classList.toggle('on',o.dataset.m===m)); }
   opts.forEach(o=>o.addEventListener('click',()=>setMode(o.dataset.m)));
